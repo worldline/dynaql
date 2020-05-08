@@ -1,0 +1,484 @@
+//
+// Copyright (c) 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+= GraphQL dynamic Client for MicroProfile 
+
+== Rationale
+
+MicroProfile GraphQL 1.0 has been focused on the server-side enabling to develop and expose GraphQL endpoints. The purpose of this specification is to define a so-called "dynamic" client API. "Dynamic" means close to the GraphQL semantic, including for instance errors and partial results. We can compare with what JAX-RS client API is for REST.
+
+A "type-safe" client API, similar to MicroProfile RestClient, will also be proposed.
+
+== Goals
+
+1. **Provides full control over the MicroProfile GraphQL capabilities**: operations, arguments, variables, input types, scalars, interface, partial results, errors ...
+2. **HTTP support**: while the GraphQL specification is independent from the transport layer, we believe that in practice it is relevant to support HTTP features such as timeouts and headers
+4. **Consistency with MicroProfile GraphQL server** annotations (DateFormat, NumberFormat ...) and capabilities
+3. **Consistency with MicroProfile**:
+
+    * No dependency outside MicroProfile core 
+    * Configuration exclusively based on MicroProfile Config
+    * Support of JSON-B format directives
+    * As consistent as possible to JAX-RS client API 
+5. Open to *reactive programming*
+
+
+== Non goals
+
+This specification doesn't aim at defining a fully type-safe GraphQL client API.
+
+== Focus of release 1.1
+
+A first version of the client API is planned with MicroProfile GraphQL 1.1. For this first step, we propose to focus on the following core features.
+
+==== GraphQL support
+
+* Operations: queries and mutations
+* Partial results
+* Errors
+* Arguments
+* Variables
+* Interface
+
+==== HTTP supports
+
+* Headers: reading and writing
+* Connection timeout
+* Read timeout
+
+==== JSON-B support
+
+* Format directives on fields: dates...
+
+==== MicroProfile Config
+
+Configuration exclusively based on MicroProfile Config.
+
+==== Synchronous client API
+
+We propose a synchronous-only API for this first release. 
+
+A reactive API, similar to JAX-RS client API (see chapter 5.7) will be studied later.
+
+==== Java 8 support
+
+Java 8 is still widely used in the industry and we propose to stick to it for a broader adoption.
+
+== Next steps
+
+To be studied for next releases:
+
+* GraphQL subscription, union
+* Reactive API
+* https://spec.graphql.org/draft/#sec-Document[Multiple operations inside a GraphQL document]
+
+== API building-blocks
+
+All classes described in this document are part of the package __org.worldline.dynaql__.
+
+The API is styronly inspired from JAX-RS Client API and is based on the following main classes:
+
+* **ClientBuilder**: a generic builder for Client. Can be configured with properties and HTTP timeout
+* **Client**: the base class to interact with a GraphQL server endpoint
+* **GraphQLTarget**: a GraphQL target in charge of running a request 
+* **Invocation**: a read-to-run GraphQL operation including variables
+* **Response**: a holder for the GraphQL response including both data (which can be partial) and GraphQL errors if any
+
+
+== Structure of the API
+
+The overall structure of the API is illustrated with the following snippet:
+[source,Java]
+----
+// A client is the base class to interact with a GraphQL server endpoint
+Client client = ClientBuilder.newBuilder().build();
+
+
+// A GraphQL target represents an interaction with an endpoint       
+GraphQLTarget target =client.target("http://localhost:8080/graphql");
+
+// An invocation represents a GraphQL operation to be run
+Invocation invocation = target.request("query { people { surname birthDate } }").build();
+
+// And here is how we get the response
+Response response = invocation.invoke();
+----
+== Code examples
+
+=== Building a basic query
+
+In this example, we want to get the name of all heroes. The GraphQL query that fits that needs is:
+[source,json]
+----
+allHeroes {
+	name
+}
+----
+The way to build this query with the API is:
+[source,java]
+----
+Builder builder = new Builder(Operation.Type.QUERY)
+  .addRootField(new Field("allHeroes", 
+    new ArrayList<>(asList(new Field("name")))));
+----
+To be more concise and expressive, we also propose a lighter syntax based on predefined static methods:
+[source,java]
+----
+Builder builderWithSugar = new Builder(Operation.Type.QUERY)
+       .addRootField("allHeroes", fields(field("name")));
+----
+
+The static methods to obtain this lighter syntax are described in the <<appendix_static_methods>>.
+
+=== Building a more complex query
+
+In this example, we want to get all heroes from a given city, including the name of the teams they belong to.
+The GraphQL query that fits this need is:
+
+[source,json]
+----
+query {
+  allHeroesIn(city: "New York, NY") {
+	name
+	currentLocation
+	teamAffiliations {
+  		name
+	}
+  }
+----
+The way to build this query with the API is:
+[source,java]
+----
+Builder builder = new Builder(Operation.Type.QUERY)
+       .addRootField(new Field("allHeroesIn",
+               new HashSet<Argument>(asList(
+                       new Argument("city", "New York, NY")
+               )),
+               new ArrayList<>(asList(
+                       new Field("name"),
+                       new Field("currentLocation"),
+                       new Field("teamAffiliations", new ArrayList<>(asList(
+                               new Field("name")))
+                       )))));
+----
+The same query with the ligther syntax:
+[source,java]
+----
+Builder builderWithSugar = new Builder(Operation.Type.QUERY)
+       .addRootField("allHeroesIn",
+               args(
+                       arg("city", "New York, NY")
+               ),
+               fields(
+                       field("name"),
+                       field("currentLocation"),
+                       field("teamAffiliations",
+                               fields(
+                                       field("name")
+                               )
+                       )
+               )
+       );
+----
+
+=== Adding attributes to fields
+
+In the previous example, there is just one argument at the root level. What if we want to set arguments to fields?
+Let’s imagine we want to add 2 arguments to the “currentLocation” field:
+[source, java]
+----
+Builder builder = new Builder(Operation.Type.QUERY)
+       .addRootField("allHeroesIn",
+               new HashSet<Argument>(asList(
+                       new Argument("city", "New York, NY")
+               )),
+               new HashSet<Field>(asList(
+                       new Field("name"),
+                       new Field("currentLocation", new HashSet<Argument>(asList(
+                               new Argument("foo", "bar"),
+                               new Argument("zoo", 123)
+                       ))),
+                       new Field("teamAffiliations", new HashSet<Field>(asList(
+                               new Field("name")))
+                       ))))
+       .addRootField("allHeroes", new HashSet<Field>(asList(new Field("name"))));
+
+----
+
+With the light API:
+[source,java]
+----
+Builder builderWithSugar = new Builder(Operation.Type.QUERY)
+       .addRootField("allHeroesIn",
+               asSet(
+                       arg("city", "New York, NY")
+               ),
+               asSet(
+                       field("name"),
+                       field("currentLocation", asSet(
+                               arg("foo", "bar"),
+                               arg("zoo", 123)
+                       )),
+                       field("teamAffiliations",
+                               asSet(
+                                       field("name")
+                               )
+                       )
+               )
+       )
+       .addRootField("allHeroes", asSet(field("name")));
+----
+
+== Building a mutation
+In this example, we want to add a hero to a team, more specifically Wolverine to the Avengers.
+
+The GraphQL mutation that responds to this need is:
+[source,json]
+----
+mutation {
+  addHeroToTeam(hero: "Wolverine", team: "Avengers") {
+         name
+         rivalTeam {
+             name
+	         members {
+		       costumeColor
+             }
+         }
+  }
+}
+----
+Note that there are 2 arguments on the addHeroToTeam field. The way to run it using the proposed API is:
+[source,java]
+----
+Builder builder = new Builder(Operation.Type.MUTATION)
+       .addRootField("addHeroToTeam",
+               asSet(
+                       arg("hero", "Wolverine"),
+                       arg("team", "Avengers")
+               ),
+               asSet(
+                       field("name"),
+                       field("rivalTeam",
+                               asSet(
+                                       field("name"),
+                                       field("members",
+                                               asSet(
+                                                       field("costumeColor")
+                                               )
+                                       )
+                               )
+                       )
+               )
+       )
+
+----
+
+== Managing input objects
+
+In that case, we want to create a hero from scratch:
+[source,json]
+----
+mutation {
+  createNewHero(hero: {
+	name: "Green Lantern",
+    	costumeColor: "green",
+    	dateOfLastCheckin: "2020-03-25",
+    	equipment: null,
+    	knownEnemies: [“Wolverine, “Starlord”, Iron Man”],
+	idNumber: 456) {
+    realName
+  }
+}
+----
+We can observe that we have a multi-valued argument and we need a specific API construct for that: the InputObject.For instance:
+[source,java]
+----
+Builder builder = new Builder(Operation.Type.MUTATION)
+       .addRootField(field("createNewHero",
+               args(
+                       arg("hero", inputObject(
+                                   inputField("costumeColor", "green"),
+                                   inputField("dateOfLastCheckin", LocalDate.now()),
+                                   inputField("equipment", null),
+                                   inputField("idNumber", 456),
+                                   inputField("knownEnemies", asList("Wolverine", "Starlord", "Iron Man")),
+                                   inputField("name", "Green Lantern")
+                       ))
+               ),
+               fields(
+                       field("name"),
+                       field("nameOfKnownEnemies")
+               )
+       ));
+----
+
+== Running operations
+
+Once the operation is built (a mutation or a query), it is ready to be run against an endpoint. Let's see how to do that.
+
+There are two options depending on the way to get the data result.
+
+To get raw JSON data:
+[source,java]
+----
+// Build the client
+Client client = ClientBuilder.newBuilder().build();
+
+// Run the request and get the response
+Response response = client.target(endpoint).request(request).invoke();
+
+// Check if any GraphQL error
+if ( response.hadError() ) { ... }
+
+// Get the raw JSON data
+if ( response.hasData() ) {
+    JsonObject data = response.getData();
+    ... 
+    }
+----
+In this example, the data is provided as raw JsonObject.
+
+The API also enables to get the response data using business classes which can be more convenient for the developper.
+
+For instance to initialize a single class:
+[source,java]
+----
+Person person = response.asDataObject(PersonDTO.class, "person");
+----
+The asDataObject method requires 2 parameters:
+
+. the business class
+. the root field name in the returned data graph.
+
+We can also get a list of business objects sith the asDataList method:
+[source,java]
+----
+List<PersonDTO> people = response.asDataList(PersonDTO.class, "people");
+----
+== HTTP support
+
+HTTP support is based on https://hc.apache.org/httpcomponents-client-ga/[HttpClient] from Apache HTTP Components.
+
+=== Operations and response codes
+In this current version, all GraphQL queries are sent via HTTP POST operations. GET is not supported.
+
+Only 200 response code is supported, otherwize a runtime  HttResponseException is thrown.
+
+=== Timeout
+We propose a similar approach to JAX-RS with HTTP timeouts set at the ClientBuilder level:
+[source,java]
+----
+ClientBuilder builder = ClientBuilder.newBuilder();
+        builder.connectTimeout(5, TimeUnit.SECONDS);
+        builder.readTimeout(500, TimeUnit.MILLISECONDS);
+----
+Then built clients, "inherit" from these timeout definitions.
+
+=== Headers
+
+We propose a similar approach to JAX-RS with HTTP headers set at the Invocation level:
+[source,java]
+----
+Response response = client
+    .target(endpoint)
+    .request(request)
+    .header("Authorization", "Bearer: <JWT here>")
+    .invoke();
+----
+
+== BackLog
+
+=== Priority classification
+
+. high: for tomorrow
+. medium: in release 1.1
+. low: in further release.
+
+
+=== Update README document
+
+Priority : high.
+
+Status: ongoing.
+
+=== GraphQL variables test and support
+Test String variables.
+Manage non-String variables and see how it behaves with JSON-B.
+
+Priority : high.
+
+Status: TODO.
+
+
+== Refactor Testing
+Use TestNG and mock the server.
+
+Priority: medium.
+
+
+
+=== Separate API from implementation
+
+Priority : medium.
+
+=== HTTP support
+Implements and test HTTP timeouts, headers, SSL and proxy usage.
+
+See document: https://hc.apache.org/httpcomponents-client-ga/tutorial/html/index.html.
+
+Priority: medium.
+
+=== Optimization & performance
+Best way to use HttpClient etc ...
+
+Priority: medium.
+
+=== Javadoc
+
+Priority: medium.
+
+=== Manage specific MicroProfile GraphQL annotations
+
+Prioirity : low.
+
+=== Support Reactive programming
+Implements rx method on Invocation.
+
+Priority : low.
+
+== Appendix: static methods for the light API
+[source,java]
+----
+@SafeVarargs
+public static <Field> List<Field> fields(Field... f) {
+   return asList(f);
+}
+public static Field field(String name) {
+   return new Field(name);
+}
+
+@SafeVarargs
+public static <Argument> Set<Argument> args(Argument... a) {
+   return asSet(a);
+}
+public static Argument arg(String name, Object value) {
+   return new Argument(name, value);
+}
+
+----
