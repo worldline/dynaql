@@ -24,8 +24,8 @@ mutation scalarHolderMutation {
         bigInteger: 10
         bigDecimal: 10
 
-        charPrimitive: "\u0000"
-        charObject: "￿"
+        charPrimitive: "a"
+        charObject: "Z"
 
         stringObject: "Hello World !"
     }) {

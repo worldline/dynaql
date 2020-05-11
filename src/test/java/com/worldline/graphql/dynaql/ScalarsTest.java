@@ -56,8 +56,8 @@ public class ScalarsTest {
                                                 InputObjectField.prop("bigInteger", BigInteger.TEN),
                                                 InputObjectField.prop("bigDecimal", BigDecimal.TEN),
 
-                                                InputObjectField.prop("charPrimitive", Character.MIN_VALUE),
-                                                InputObjectField.prop("charObject", Character.valueOf(Character.MAX_VALUE)),
+                                                InputObjectField.prop("charPrimitive", 'a'),
+                                                InputObjectField.prop("charObject", Character.valueOf('Z')),
 
                                                 InputObjectField.prop("stringObject", "Hello World !")
                                         ))),
