@@ -15,6 +15,7 @@ public class Field implements IBuildable {
     public static List<Field> fields(Field... fields) {
         return asList(fields);
     }
+
     public static Field field(String name) {
         return new Field(name);
     }
@@ -25,6 +26,9 @@ public class Field implements IBuildable {
     @SafeVarargs
     public static Field field(String name, Field... fields) {
         return new Field(name, fields);
+    }
+    public static Field field(String name, List<Argument> args, Field... fields) {
+        return new Field(name, args, fields);
     }
     public static Field field(String name, List<Argument> args, List<Field> fields) {
         return new Field(name, args, fields);
@@ -45,6 +49,12 @@ public class Field implements IBuildable {
     public Field(String name, Field... fields) {
         this.name = name;
         this.arguments = asList(new Argument[0]);
+        this.fields = asList(fields);
+    }
+    @SafeVarargs
+    public Field(String name, List<Argument> args, Field... fields) {
+        this.name = name;
+        this.arguments = args;
         this.fields = asList(fields);
     }
     public Field(String name, List<Argument> args, List<Field> fields) {
