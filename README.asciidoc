@@ -55,6 +55,7 @@ A first version of the client API is planned with MicroProfile GraphQL 1.1. For 
 * Arguments
 * Variables
 * Interface
+* Enum
 
 ==== HTTP supports
 
@@ -109,9 +110,8 @@ The overall structure of the API is illustrated with the following snippet:
 // A client is the base class to interact with a GraphQL server endpoint
 Client client = ClientBuilder.newBuilder().build();
 
-
 // A GraphQL target represents an interaction with an endpoint       
-GraphQLTarget target =client.target("http://localhost:8080/graphql");
+GraphQLTarget target = client.target("http://localhost:8080/graphql");
 
 // An invocation represents a GraphQL operation to be run
 Invocation invocation = target.request("query { people { surname birthDate } }").build();
@@ -119,15 +119,37 @@ Invocation invocation = target.request("query { people { surname birthDate } }")
 // And here is how we get the response
 Response response = invocation.invoke();
 ----
-== Code examples
+== Building a GraphQL Document
+.A GraphQL document and how to write it in Java
+image::back2back.jpg[back2back]
+
+=== Document
+TODO
+
+=== Operation
+TODO
+
+=== Argument
+TODO
+
+==== Enum
+TODO
+
+==== Input Object
+TODO
+
+=== Field
+TODO
 
 === Building a basic query
 
 In this example, we want to get the name of all heroes. The GraphQL query that fits that needs is:
-[source,json]
+[source,graphql]
 ----
-allHeroes {
-	name
+{
+    allHeroes {
+        name
+    }
 }
 ----
 The way to build this query with the API is:
