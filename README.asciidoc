@@ -28,20 +28,18 @@ A "type-safe" client API, similar to MicroProfile RestClient, will also be propo
 == Goals
 
 1. **Provides full control over the MicroProfile GraphQL capabilities**: operations, arguments, variables, input types, scalars, interface, partial results, errors ...
-2. **HTTP support**: while the GraphQL specification is independent from the transport layer, we believe that in practice it is relevant to support HTTP features such as timeouts and headers
+2. **Transport layer agnostic**: the GraphQL specification is independent from the transport layer, we propose to stay aligned with this. Leaving the final implementation free to use any networking client network library (JaxRS, HTTP ...).
 4. **Consistency with MicroProfile GraphQL server** annotations (DateFormat, NumberFormat ...) and capabilities
 3. **Consistency with MicroProfile**:
-
     * No dependency outside MicroProfile core 
     * Configuration exclusively based on MicroProfile Config
     * Support of JSON-B format directives
-    * As consistent as possible to JAX-RS client API 
-5. Open to *reactive programming*
 
 
 == Non goals
 
-This specification doesn't aim at defining a fully type-safe GraphQL client API.
+This specification doesn't aim at:
+* defining a fully type-safe GraphQL client API.
 
 == Focus of release 1.1
 
