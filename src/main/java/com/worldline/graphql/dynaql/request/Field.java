@@ -2,9 +2,11 @@ package com.worldline.graphql.dynaql.request;
 
 import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 
 public class Field implements IBuildable {
     private String name;
@@ -17,46 +19,31 @@ public class Field implements IBuildable {
     }
 
     public static Field field(String name) {
-        return new Field(name);
+        return new Field(name, emptyList(), emptyList());
     }
-    @SafeVarargs
-    public static Field field(String name, Argument... args) {
-        return new Field(name, args);
-    }
+
     @SafeVarargs
     public static Field field(String name, Field... fields) {
-        return new Field(name, fields);
+        return new Field(name, emptyList(), asList(fields));
     }
+    public static Field field(String name, List<Field> fields) {
+        return new Field(name, emptyList(), fields);
+    }
+
+    @SafeVarargs
+    public static Field field(String name, Argument... args) {
+        return new Field(name, asList(args), emptyList());
+    }
+
+    @SafeVarargs
     public static Field field(String name, List<Argument> args, Field... fields) {
-        return new Field(name, args, fields);
+        return new Field(name, args, asList(fields));
     }
     public static Field field(String name, List<Argument> args, List<Field> fields) {
         return new Field(name, args, fields);
     }
 
-    public Field(String name) {
-        this.name = name;
-        this.arguments = asList(new Argument[0]);
-        this.fields = asList(new Field[0]);
-    }
-    @SafeVarargs
-    public Field(String name, Argument... args) {
-        this.name = name;
-        this.arguments = asList(args);
-        this.fields = asList(new Field[0]);
-    }
-    @SafeVarargs
-    public Field(String name, Field... fields) {
-        this.name = name;
-        this.arguments = asList(new Argument[0]);
-        this.fields = asList(fields);
-    }
-    @SafeVarargs
-    public Field(String name, List<Argument> args, Field... fields) {
-        this.name = name;
-        this.arguments = args;
-        this.fields = asList(fields);
-    }
+
     public Field(String name, List<Argument> args, List<Field> fields) {
         this.name = name;
         this.arguments = args;
