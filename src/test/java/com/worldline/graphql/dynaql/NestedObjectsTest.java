@@ -191,8 +191,5 @@ public class NestedObjectsTest {
         String generatedRequest = document.toString();
         //System.out.println(generatedRequest);
         assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
-
-        Client client = ClientBuilder.newBuilder().build();
-        client.target("http://mockTarget").request(generatedRequest);
     }
 }

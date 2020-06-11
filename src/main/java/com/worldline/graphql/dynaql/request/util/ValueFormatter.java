@@ -1,5 +1,6 @@
 package com.worldline.graphql.dynaql.request.util;
 
+import com.worldline.graphql.dynaql.request.GraphQLEnum;
 import com.worldline.graphql.dynaql.request.InputObject;
 import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
 
@@ -16,6 +17,9 @@ public class ValueFormatter {
         } else if (value instanceof InputObject) {
             InputObject inputObject = (InputObject) value;
             inputObject.build(builder);
+        } else if (value instanceof GraphQLEnum) {
+            GraphQLEnum gqlEnum = (GraphQLEnum) value;
+            builder.append(gqlEnum.getValue());
         } else if (value.getClass().isArray()) {
             _appendArray(builder, value);
         } else if (value instanceof String) {

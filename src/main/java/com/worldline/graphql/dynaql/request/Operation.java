@@ -13,36 +13,39 @@ public class Operation implements IBuildable {
     public static List<Operation> operations(Operation... operations) {
         return asList(operations);
     }
+
     @SafeVarargs
-    public static Operation operation(Field... fields) { return new Operation(fields); }
+    public static Operation operation(Field... fields) { return new Operation(Type.QUERY, "", asList(fields)); }
+    public static Operation operation(List<Field> fields) { return new Operation(Type.QUERY, "", fields); }
+
     @SafeVarargs
     public static Operation operation(Type type, Field... fields) {
-        return new Operation(type, fields);
+        return new Operation(type, "", asList(fields));
     }
+    public static Operation operation(Type type, List<Field> fields) {
+        return new Operation(type, "", fields);
+    }
+
+    @SafeVarargs
+    public static Operation operation(String name, Field... fields) {
+        return new Operation(Type.QUERY, name, asList(fields));
+    }
+    public static Operation operation(String name, List<Field> fields) {
+        return new Operation(Type.QUERY, name, fields);
+    }
+
     @SafeVarargs
     public static Operation operation(Type type, String name, Field... fields) {
+        return new Operation(type, name, asList(fields));
+    }
+    public static Operation operation(Type type, String name, List<Field> fields) {
         return new Operation(type, name, fields);
     }
 
-    @SafeVarargs
-    public Operation(Field... fields) {
-        this.type = Type.QUERY;
-        this.name = "";
-        this.fields = asList(fields);
-    }
-
-    @SafeVarargs
-    public Operation(Type type, Field... fields) {
-        this.type = type;
-        this.name = "";
-        this.fields = asList(fields);
-    }
-
-    @SafeVarargs
-    public Operation(Type type, String name, Field... fields) {
+    public Operation(Type type, String name, List<Field> fields) {
         this.type = type;
         this.name = name;
-        this.fields = asList(fields);
+        this.fields = fields;
     }
 
     @Override

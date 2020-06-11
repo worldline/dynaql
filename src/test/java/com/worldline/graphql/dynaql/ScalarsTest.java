@@ -97,8 +97,5 @@ public class ScalarsTest {
         String generatedRequest = document.toString();
         //System.out.println(generatedRequest);
         AssertGraphQL.assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
-
-        Client client = ClientBuilder.newBuilder().build();
-        client.target("http://mockTarget").request(generatedRequest);
     }
 }
