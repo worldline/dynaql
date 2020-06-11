@@ -17,6 +17,7 @@ package com.worldline.graphql.dynaql.response;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.ArrayList;
@@ -30,20 +31,13 @@ import java.util.Map;
  */
 public class Response {
 
-    private Map<String, String> headers = new HashMap<>();
-
-    private JsonObject data;
+    // to determine with this.data.getValueType()
+    private JsonValue data;
     private List<GraphQLError> errors;
+
+
     private Jsonb jsonb;
 
-
-    public void addHeader(String name, String value) {
-        headers.put(name, value);
-    }
-
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
 
     public void setData(JsonObject data) {
         this.data = data;
