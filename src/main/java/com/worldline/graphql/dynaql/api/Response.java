@@ -15,10 +15,38 @@
  */
 package com.worldline.graphql.dynaql.api;
 
+import javax.json.JsonObject;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author jefrajames
  */
-public interface GraphQLClientBuilder {
-    GraphQLRequest newRequest(String request);
+public interface Response {
+
+    JsonObject getData();
+
+    List<GraphQLError> getErrors();
+
+    <T> List<T> getList(Class<T> dataType, String rootField);
+
+    <T> T getObject(Class<T> dataType, String rootField);
+
+    boolean hasData();
+
+    boolean hasError();
+    
+    public static interface GraphQLError {
+        
+        String getMessage();
+
+        List<Map<String, Integer>> getLocations();
+      
+        Object[] getPath();
+
+        Map<String, Object> getExtensions();
+        
+    }
+    
 }

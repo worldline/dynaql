@@ -1,24 +1,24 @@
-package com.worldline.graphql.dynaql.request.util;
+package com.worldline.graphql.dynaql.impl.core.utils;
 
-import com.worldline.graphql.dynaql.request.GraphQLEnum;
-import com.worldline.graphql.dynaql.request.InputObject;
-import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
+import com.worldline.graphql.dynaql.impl.core.DynaQLEnum;
+import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
+import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 
 public class ValueFormatter {
 
-    public static String format(Object value) throws RequestBuilderException {
+    public static String format(Object value) throws BuilderException {
         StringBuilder builder = new StringBuilder();
 
         if (value == null) {
             builder.append("null");
-        } else if (value instanceof InputObject) {
-            InputObject inputObject = (InputObject) value;
-            inputObject.build(builder);
-        } else if (value instanceof GraphQLEnum) {
-            GraphQLEnum gqlEnum = (GraphQLEnum) value;
+        } else if (value instanceof DynaQLInputObject) {
+            DynaQLInputObject inputObject = (DynaQLInputObject) value;
+            builder.append(inputObject.build());
+        } else if (value instanceof DynaQLEnum) {
+            DynaQLEnum gqlEnum = (DynaQLEnum) value;
             builder.append(gqlEnum.getValue());
         } else if (value.getClass().isArray()) {
             _appendArray(builder, value);
@@ -35,7 +35,7 @@ public class ValueFormatter {
         return builder.toString();
     }
 
-    private static void _appendArray(StringBuilder builder, Object array) throws RequestBuilderException {
+    private static void _appendArray(StringBuilder builder, Object array) throws BuilderException {
         int length = Array.getLength(array);
 
         builder.append("[");

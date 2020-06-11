@@ -1,4 +1,4 @@
-package com.worldline.graphql.dynaql.util;
+package com.worldline.graphql.dynaql.utils;
 
 
 import graphql.parser.InvalidSyntaxException;

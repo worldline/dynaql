@@ -1,47 +1,47 @@
 package com.worldline.graphql.dynaql;
 
-import com.worldline.graphql.dynaql.request.Document;
-import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
-import com.worldline.graphql.dynaql.request.Field;
-import com.worldline.graphql.dynaql.util.Utils;
+import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
+import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static com.worldline.graphql.dynaql.request.Argument.arg;
-import static com.worldline.graphql.dynaql.request.Argument.args;
-import static com.worldline.graphql.dynaql.request.Document.document;
-import static com.worldline.graphql.dynaql.request.Field.field;
-import static com.worldline.graphql.dynaql.request.Operation.operation;
-import static com.worldline.graphql.dynaql.util.AssertGraphQL.assertEquivalentGraphQLRequest;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLField.fields;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
+import static com.worldline.graphql.dynaql.utils.AssertGraphQL.assertEquivalentGraphQLRequest;
 
 public class FieldTest {
 
     @Test
-    public void fieldTest() throws IOException, URISyntaxException, RequestBuilderException {
+    public void fieldTest() throws IOException, URISyntaxException, BuilderException {
         String expectedRequest = Utils.getResourceFileContent(getClass(), "field.graphql");
 
-        Document document = document(
+        DynaQLDocument document = document(
                 operation(
-                        Field.field("noArgNoSubField"),
-                        Field.field("noArgWithSubField",
-                                Field.field("bool"),
-                                Field.field("string"),
-                                Field.field("double")
+                        field("noArgNoSubField"),
+                        field("noArgWithSubField",
+                                field("bool"),
+                                field("string"),
+                                field("double")
                         ),
                         field("withArgNoSubField", arg("anInt", 42)),
                         field("withArgWithSubField", args(
                                 arg("aString", "world"),
                                 arg("aDouble", 78.12d),
-                                arg("aBool", false)), Field.fields(
-                                Field.field("bool"),
-                                Field.field("string"),
-                                Field.field("double")
+                                arg("aBool", false)), fields(
+                                field("bool"),
+                                field("string"),
+                                field("double")
                         ))
                 ));
 
-        String generatedRequest = document.toString();
+        String generatedRequest = document.build();
         //System.out.println(generatedRequest);
         assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
     }

@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.api;
+package com.worldline.graphql.dynaql.impl;
+
+import com.worldline.graphql.dynaql.api.ClientBuilder;
+import com.worldline.graphql.dynaql.api.Request;
 
 /**
  *
  * @author jefrajames
  */
-public interface GraphQLRequest {
+public class DynaQLClientBuilder implements ClientBuilder {
 
-    GraphQLRequest addVariable(String name, Object value);
-
-    GraphQLRequest resetVariables();
-
-    String toJson();
+    @Override
+    public Request newRequest(String request) {
+        return new DynaQLRequest(request);
+    }
     
 }

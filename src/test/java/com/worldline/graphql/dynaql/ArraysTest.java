@@ -1,11 +1,11 @@
 package com.worldline.graphql.dynaql;
 
-import com.worldline.graphql.dynaql.request.Document;
-import com.worldline.graphql.dynaql.request.Operation;
-import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
-import com.worldline.graphql.dynaql.request.Field;
-import com.worldline.graphql.dynaql.request.InputObjectField;
-import com.worldline.graphql.dynaql.util.Utils;
+import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
+import com.worldline.graphql.dynaql.impl.core.DynaQLOperation;
+import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.impl.core.DynaQLField;
+import com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField;
+import com.worldline.graphql.dynaql.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,89 +13,89 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 
-import static com.worldline.graphql.dynaql.request.Argument.arg;
-import static com.worldline.graphql.dynaql.request.Argument.args;
-import static com.worldline.graphql.dynaql.request.Document.document;
-import static com.worldline.graphql.dynaql.request.Field.field;
-import static com.worldline.graphql.dynaql.request.InputObject.object;
-import static com.worldline.graphql.dynaql.request.Operation.operation;
-import static com.worldline.graphql.dynaql.util.AssertGraphQL.assertEquivalentGraphQLRequest;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.object;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
+import static com.worldline.graphql.dynaql.utils.AssertGraphQL.assertEquivalentGraphQLRequest;
 
 
 public class ArraysTest {
 
     @Test
-    public void arrays() throws IOException, URISyntaxException, RequestBuilderException {
+    public void arrays() throws IOException, URISyntaxException, BuilderException {
         String expectedRequest = Utils.getResourceFileContent(getClass(), "arrays.graphql");
 
-        Document document = document(
-                operation(Operation.Type.QUERY, "arrayHolderQuery",
+        DynaQLDocument document = document(
+                operation(DynaQLOperation.Type.QUERY, "arrayHolderQuery",
                         field("arrayHolder",
                                 args(
                                         arg("arrayHolder", object(
-                                                InputObjectField.prop("boolPrimitiveArray", new boolean[]{true, false, true}),
-                                                InputObjectField.prop("boolObjectArray", new Boolean[]{true, false, true}),
+                                                DynaQLInputObjectField.prop("boolPrimitiveArray", new boolean[]{true, false, true}),
+                                                DynaQLInputObjectField.prop("boolObjectArray", new Boolean[]{true, false, true}),
 
-                                                InputObjectField.prop("bytePrimitiveArray", new byte[]{0, 2, 3}),
-                                                InputObjectField.prop("byteObjectArray", new Byte[]{0, 2, 3}),
+                                                DynaQLInputObjectField.prop("bytePrimitiveArray", new byte[]{0, 2, 3}),
+                                                DynaQLInputObjectField.prop("byteObjectArray", new Byte[]{0, 2, 3}),
 
-                                                InputObjectField.prop("shortPrimitiveArray", new short[]{78, 789, 645}),
-                                                InputObjectField.prop("shortObjectArray", new Short[]{78, 789, 645}),
+                                                DynaQLInputObjectField.prop("shortPrimitiveArray", new short[]{78, 789, 645}),
+                                                DynaQLInputObjectField.prop("shortObjectArray", new Short[]{78, 789, 645}),
 
-                                                InputObjectField.prop("intPrimitiveArray", new int[]{78, 65, 12354}),
-                                                InputObjectField.prop("intObjectArray", new Integer[]{78, 65, 12354}),
+                                                DynaQLInputObjectField.prop("intPrimitiveArray", new int[]{78, 65, 12354}),
+                                                DynaQLInputObjectField.prop("intObjectArray", new Integer[]{78, 65, 12354}),
 
-                                                InputObjectField.prop("longPrimitiveArray", new long[]{789L, 947894L, 1874448L}),
-                                                InputObjectField.prop("longObjectArray", new Long[]{789L, 947894L, 1874448L}),
+                                                DynaQLInputObjectField.prop("longPrimitiveArray", new long[]{789L, 947894L, 1874448L}),
+                                                DynaQLInputObjectField.prop("longObjectArray", new Long[]{789L, 947894L, 1874448L}),
 
-                                                InputObjectField.prop("floatPrimitiveArray", new float[]{1567.654f, 8765f, 123789456.1851f}),
-                                                InputObjectField.prop("floatObjectArray", new Float[]{1567.654f, 8765f, 123789456.1851f}),
+                                                DynaQLInputObjectField.prop("floatPrimitiveArray", new float[]{1567.654f, 8765f, 123789456.1851f}),
+                                                DynaQLInputObjectField.prop("floatObjectArray", new Float[]{1567.654f, 8765f, 123789456.1851f}),
 
-                                                InputObjectField.prop("doublePrimitiveArray", new double[]{789.3242d, 1815d, 98765421.654897d}),
-                                                InputObjectField.prop("doubleObjectArray", new Double[]{789.3242d, 1815d, 98765421.654897d}),
+                                                DynaQLInputObjectField.prop("doublePrimitiveArray", new double[]{789.3242d, 1815d, 98765421.654897d}),
+                                                DynaQLInputObjectField.prop("doubleObjectArray", new Double[]{789.3242d, 1815d, 98765421.654897d}),
 
-                                                InputObjectField.prop("bigIntegerArray", new BigInteger[]{BigInteger.ZERO, BigInteger.ONE, BigInteger.TEN}),
-                                                InputObjectField.prop("bigDecimalArray", new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN}),
+                                                DynaQLInputObjectField.prop("bigIntegerArray", new BigInteger[]{BigInteger.ZERO, BigInteger.ONE, BigInteger.TEN}),
+                                                DynaQLInputObjectField.prop("bigDecimalArray", new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN}),
 
-                                                InputObjectField.prop("charPrimitiveArray", new char[]{'f', 'o', 'o'}),
-                                                InputObjectField.prop("charObjectArray", new Character[]{'f', 'o', 'o'}),
+                                                DynaQLInputObjectField.prop("charPrimitiveArray", new char[]{'f', 'o', 'o'}),
+                                                DynaQLInputObjectField.prop("charObjectArray", new Character[]{'f', 'o', 'o'}),
 
-                                                InputObjectField.prop("stringArray", new String[]{"foo", "bar", "baz"})
+                                                DynaQLInputObjectField.prop("stringArray", new String[]{"foo", "bar", "baz"})
                                         ))),
-                                Field.fields(
-                                        Field.field("boolPrimitiveArray"),
-                                        Field.field("boolObjectArray"),
+                                DynaQLField.fields(
+                                        DynaQLField.field("boolPrimitiveArray"),
+                                        DynaQLField.field("boolObjectArray"),
 
-                                        Field.field("bytePrimitiveArray"),
-                                        Field.field("byteObjectArray"),
+                                        DynaQLField.field("bytePrimitiveArray"),
+                                        DynaQLField.field("byteObjectArray"),
 
-                                        Field.field("shortPrimitiveArray"),
-                                        Field.field("shortObjectArray"),
+                                        DynaQLField.field("shortPrimitiveArray"),
+                                        DynaQLField.field("shortObjectArray"),
 
-                                        Field.field("intPrimitiveArray"),
-                                        Field.field("intObjectArray"),
+                                        DynaQLField.field("intPrimitiveArray"),
+                                        DynaQLField.field("intObjectArray"),
 
-                                        Field.field("longPrimitiveArray"),
-                                        Field.field("longObjectArray"),
+                                        DynaQLField.field("longPrimitiveArray"),
+                                        DynaQLField.field("longObjectArray"),
 
-                                        Field.field("floatPrimitiveArray"),
-                                        Field.field("floatObjectArray"),
+                                        DynaQLField.field("floatPrimitiveArray"),
+                                        DynaQLField.field("floatObjectArray"),
 
-                                        Field.field("doublePrimitiveArray"),
-                                        Field.field("doubleObjectArray"),
+                                        DynaQLField.field("doublePrimitiveArray"),
+                                        DynaQLField.field("doubleObjectArray"),
 
-                                        Field.field("bigIntegerArray"),
-                                        Field.field("bigDecimalArray"),
+                                        DynaQLField.field("bigIntegerArray"),
+                                        DynaQLField.field("bigDecimalArray"),
 
-                                        Field.field("charPrimitiveArray"),
-                                        Field.field("charObjectArray"),
+                                        DynaQLField.field("charPrimitiveArray"),
+                                        DynaQLField.field("charObjectArray"),
 
-                                        Field.field("stringArray")
+                                        DynaQLField.field("stringArray")
                                 )
                         )
                 ));
 
-        String generatedRequest = document.toString();
+        String generatedRequest = document.build();
         //System.out.println(generatedRequest);
         assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
     }

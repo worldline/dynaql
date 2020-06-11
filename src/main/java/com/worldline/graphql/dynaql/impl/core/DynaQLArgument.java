@@ -1,34 +1,38 @@
-package com.worldline.graphql.dynaql.request;
+package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.request.exceptions.RequestBuilderException;
+import com.worldline.graphql.dynaql.api.core.Argument;
 
 import java.util.List;
 
+import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
 import static java.util.Arrays.asList;
-import static com.worldline.graphql.dynaql.request.util.ValueFormatter.format;
 
-public class Argument implements IBuildable {
+public class DynaQLArgument implements Argument {
     private String name;
     private Object value;
 
     @SafeVarargs
-    public static List<Argument> args(Argument... args) {
+    public static List<DynaQLArgument> args(DynaQLArgument... args) {
         return asList(args);
     }
-    public static Argument arg(String name, Object value) {
-        return new Argument(name, value);
+    public static DynaQLArgument arg(String name, Object value) {
+        return new DynaQLArgument(name, value);
     }
 
-    public Argument(String name, Object value) {
+    public DynaQLArgument(String name, Object value) {
         this.name = name;
         this.value = value;
     }
 
     @Override
-    public void build(StringBuilder builder) throws RequestBuilderException {
+    public String build() {
+        StringBuilder builder = new StringBuilder();
+
         builder.append(this.name);
         builder.append(":");
         builder.append(format(this.value));
+
+        return builder.toString();
     }
 
     public String getName() {
