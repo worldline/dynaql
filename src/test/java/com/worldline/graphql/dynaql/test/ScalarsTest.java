@@ -1,10 +1,10 @@
-package com.worldline.graphql.dynaql;
+package com.worldline.graphql.dynaql.test;
 
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.utils.AssertGraphQL;
-import com.worldline.graphql.dynaql.utils.Utils;
+import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
+import com.worldline.graphql.dynaql.test.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

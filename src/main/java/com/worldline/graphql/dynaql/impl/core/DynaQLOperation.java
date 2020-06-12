@@ -1,5 +1,6 @@
 package com.worldline.graphql.dynaql.impl.core;
 
+import com.worldline.graphql.dynaql.api.core.Field;
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 
@@ -108,7 +109,7 @@ public class DynaQLOperation implements Operation {
         return fields;
     }
 
-    public void setFields(List<DynaQLField> fields) {
-        this.fields = fields;
+    public void setFields(List<? extends Field> fields) {
+        this.fields = (List<DynaQLField>)fields;
     }
 }

@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.dtos;
+package com.worldline.graphql.dynaql.test.dtos;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- *
+ * PersonDTO with fields not returned in the GraphQL response: strenght and address.area``
+ * 
+ * In that case, values remain null after deserialization.
+ * 
  * @author jefrajames
  */
-public class PersonDTO {
+public class PersonWithAdditionalFieldsDTO {
 
     int id;
     String surname;
     String[] names;
+    String strength;
 
     @JsonbDateFormat("dd/MM/yyyy") // This is for JSON-B
             LocalDate birthDate;
@@ -66,6 +70,14 @@ public class PersonDTO {
         this.birthDate = birthDate;
     }
 
+    public String getStrength() {
+        return strength;
+    }
+
+    public void setStrength(String strength) {
+        this.strength = strength;
+    }
+
     public List<AddressDTO> getAddresses() {
         return addresses;
     }
@@ -84,6 +96,7 @@ public class PersonDTO {
 
         String code;
         String[] lines;
+        int area;
 
         public String getCode() {
             return code;
@@ -101,9 +114,17 @@ public class PersonDTO {
             this.lines = lines;
         }
 
+        public int getArea() {
+            return area;
+        }
+
+        public void setArea(int area) {
+            this.area = area;
+        }
+
         @Override
         public String toString() {
-            return "AddressDTO{" + "code=" + code + ", lines=" + lines + '}';
+            return "AddressDTO{" + "code=" + code + ", lines=" + lines + ", area=" + area + '}';
         }
         
     }

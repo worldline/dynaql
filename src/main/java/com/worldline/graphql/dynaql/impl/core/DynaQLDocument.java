@@ -1,6 +1,7 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 import com.worldline.graphql.dynaql.api.core.Document;
+import com.worldline.graphql.dynaql.api.core.Operation;
 
 import java.util.List;
 
@@ -10,22 +11,22 @@ public class DynaQLDocument implements Document {
     private List<DynaQLOperation> operations;
 
     @SafeVarargs
-    public static DynaQLDocument document(DynaQLOperation... operations) {
+    public static DynaQLDocument document(Operation... operations) {
         return new DynaQLDocument(asList(operations));
     }
-    public static DynaQLDocument document(List<DynaQLOperation> operations) {
+    public static DynaQLDocument document(List<Operation> operations) {
         return new DynaQLDocument(operations);
     }
 
-    public DynaQLDocument(List<DynaQLOperation> operations) {
-        this.operations = operations;
+    public DynaQLDocument(List<? extends Operation> operations) {
+        this.operations = (List<DynaQLOperation>)operations;
     }
 
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();
 
-        for (DynaQLOperation operation : this.operations) {
+        for (Operation operation : this.operations) {
             builder.append(operation.build());
         }
 
@@ -36,7 +37,7 @@ public class DynaQLDocument implements Document {
         return operations;
     }
 
-    public void setOperations(List<DynaQLOperation> operations) {
-        this.operations = operations;
+    public void setOperations(List<? extends Operation> operations) {
+        this.operations = (List<DynaQLOperation>)operations;
     }
 }

@@ -1,8 +1,9 @@
-package com.worldline.graphql.dynaql;
+package com.worldline.graphql.dynaql.test;
 
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.utils.Utils;
+import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
+import com.worldline.graphql.dynaql.test.utils.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,7 +15,6 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.fields;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
-import static com.worldline.graphql.dynaql.utils.AssertGraphQL.assertEquivalentGraphQLRequest;
 
 public class FieldTest {
 
@@ -43,6 +43,6 @@ public class FieldTest {
 
         String generatedRequest = document.build();
         //System.out.println(generatedRequest);
-        assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
+        AssertGraphQL.assertEquivalentGraphQLRequest(expectedRequest, generatedRequest);
     }
 }

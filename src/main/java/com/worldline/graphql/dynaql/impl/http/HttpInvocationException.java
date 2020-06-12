@@ -13,20 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.impl;
-
-import com.worldline.graphql.dynaql.api.GraphQLClientBuilder;
-import com.worldline.graphql.dynaql.api.GraphQLRequest;
+package com.worldline.graphql.dynaql.impl.http;
 
 /**
  *
  * @author jefrajames
  */
-public class DynaQLClientBuilder implements GraphQLClientBuilder {
+public class HttpInvocationException extends RuntimeException {
 
-    @Override
-    public GraphQLRequest newRequest(String request) {
-        return new DynaQLRequest(request);
+    public HttpInvocationException() {
     }
+
+    public HttpInvocationException(String message) {
+        super(message);
+    }
+
+    public HttpInvocationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public HttpInvocationException(Throwable cause) {
+        super(cause);
+    }
+
+    public HttpInvocationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+    
     
 }

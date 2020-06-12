@@ -1,4 +1,4 @@
-package com.worldline.graphql.dynaql.utils;
+package com.worldline.graphql.dynaql.test.utils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

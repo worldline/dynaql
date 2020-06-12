@@ -13,22 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.dtos;
+package com.worldline.graphql.dynaql.test.dtos;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * PersonDTO with no surname and no address lines attributes.
- * 
- * In that case, some fields returned in the GraphQL response are ignored.
- * 
+ *
  * @author jefrajames
  */
-public class UncompletePersonDTO {
+public class PersonDTO {
 
     int id;
+    String surname;
     String[] names;
 
     @JsonbDateFormat("dd/MM/yyyy") // This is for JSON-B
@@ -42,6 +40,14 @@ public class UncompletePersonDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String[] getNames() {
@@ -70,12 +76,14 @@ public class UncompletePersonDTO {
 
     @Override
     public String toString() {
-        return "UncompletePersonDTO{" + "id=" + id + ", names=" + names + ", birthDate=" + birthDate + ", addresses=" + addresses + '}';
+        return "PersonDTO{" + "id=" + id + ", surname=" + surname + ", names=" + names + ", birthDate=" + birthDate + ", addresses=" + addresses + '}';
     }
-
+    
+    
     public static class AddressDTO {
 
         String code;
+        String[] lines;
 
         public String getCode() {
             return code;
@@ -84,10 +92,18 @@ public class UncompletePersonDTO {
         public void setCode(String code) {
             this.code = code;
         }
-        
+
+        public String[] getLines() {
+            return lines;
+        }
+
+        public void setLines(String[] lines) {
+            this.lines = lines;
+        }
+
         @Override
         public String toString() {
-            return "AddressDTO{" + "code=" + code + '}';
+            return "AddressDTO{" + "code=" + code + ", lines=" + lines + '}';
         }
         
     }

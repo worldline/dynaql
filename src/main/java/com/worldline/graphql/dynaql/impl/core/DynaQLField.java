@@ -1,5 +1,6 @@
 package com.worldline.graphql.dynaql.impl.core;
 
+import com.worldline.graphql.dynaql.api.core.Argument;
 import com.worldline.graphql.dynaql.api.core.Field;
 
 import java.util.List;
@@ -114,15 +115,15 @@ public class DynaQLField implements Field {
         return arguments;
     }
 
-    public void setArguments(List<DynaQLArgument> arguments) {
-        this.arguments = arguments;
+    public void setArguments(List<? extends Argument> arguments) {
+        this.arguments = (List<DynaQLArgument>)arguments;
     }
 
     public List<DynaQLField> getFields() {
         return fields;
     }
 
-    public void setFields(List fields) {
-        this.fields = fields;
+    public void setFields(List<? extends Field> fields) {
+        this.fields = (List<DynaQLField>)fields;
     }
 }

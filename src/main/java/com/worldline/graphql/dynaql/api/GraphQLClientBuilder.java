@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package com.worldline.graphql.dynaql.api.core;
+package com.worldline.graphql.dynaql.api;
 
-public interface InputObjectField extends Buildable {
-    String getName();
 
-    void setName(String name);
-
-    Object getValue();
-
-    void setValue(Object value);
+public interface GraphQLClientBuilder {
+    GraphQLRequest newRequest(String request);
 }

@@ -13,12 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.api;
+package com.worldline.graphql.dynaql.impl.cdi;
+
+import com.worldline.graphql.dynaql.api.GraphQLClientBuilder;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import java.util.ServiceLoader;
 
 /**
  *
  * @author jefrajames
  */
-public interface ClientBuilder {
-    Request newRequest(String request);
+@ApplicationScoped
+public class ClientBuilderProducer {
+    
+    @Produces
+    public GraphQLClientBuilder produce() {
+        return ServiceLoader.load(GraphQLClientBuilder.class).iterator().next();
+    }
 }

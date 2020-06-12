@@ -10,15 +10,35 @@
     <packaging>jar</packaging>
 
     <properties>
+        <!-- Maven -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
 
+        <!-- Testing -->
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
         <graphql-java.version>14.0</graphql-java.version>
     </properties>
 
     <dependencies>
+        <!-- API dependencies -->
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!-- Implementation specific dependencies -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>2.0.2</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -30,21 +50,18 @@
             <version>2.6</version>
         </dependency>
         <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <version>1.1.6</version>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1</version>
         </dependency>
-        <dependency>
-            <groupId>jakarta.json.bind</groupId>
-            <artifactId>jakarta.json.bind-api</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.30</version>
         </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -56,6 +73,12 @@
             <groupId>com.graphql-java</groupId>
             <artifactId>graphql-java</artifactId>
             <version>${graphql-java.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-jre8</artifactId>
+            <version>2.26.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

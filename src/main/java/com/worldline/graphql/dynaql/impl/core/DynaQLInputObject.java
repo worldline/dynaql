@@ -1,6 +1,7 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 import com.worldline.graphql.dynaql.api.core.InputObject;
+import com.worldline.graphql.dynaql.api.core.InputObjectField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class DynaQLInputObject implements InputObject, Cloneable {
         return inputObjectFields;
     }
 
-    public void setInputObjectFields(List<DynaQLInputObjectField> inputObjectFields) {
-        this.inputObjectFields = inputObjectFields;
+    public void setInputObjectFields(List<? extends InputObjectField> inputObjectFields) {
+        this.inputObjectFields = (List<DynaQLInputObjectField>)inputObjectFields;
     }
 }

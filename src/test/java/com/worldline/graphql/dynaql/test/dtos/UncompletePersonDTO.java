@@ -13,25 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.dtos;
+package com.worldline.graphql.dynaql.test.dtos;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * PersonDTO with fields not returned in the GraphQL response: strenght and address.area``
+ * PersonDTO with no surname and no address lines attributes.
  * 
- * In that case, values remain null after deserialization.
+ * In that case, some fields returned in the GraphQL response are ignored.
  * 
  * @author jefrajames
  */
-public class PersonWithAdditionalFieldsDTO {
+public class UncompletePersonDTO {
 
     int id;
-    String surname;
     String[] names;
-    String strength;
 
     @JsonbDateFormat("dd/MM/yyyy") // This is for JSON-B
             LocalDate birthDate;
@@ -44,14 +42,6 @@ public class PersonWithAdditionalFieldsDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String[] getNames() {
@@ -70,14 +60,6 @@ public class PersonWithAdditionalFieldsDTO {
         this.birthDate = birthDate;
     }
 
-    public String getStrength() {
-        return strength;
-    }
-
-    public void setStrength(String strength) {
-        this.strength = strength;
-    }
-
     public List<AddressDTO> getAddresses() {
         return addresses;
     }
@@ -88,15 +70,12 @@ public class PersonWithAdditionalFieldsDTO {
 
     @Override
     public String toString() {
-        return "PersonDTO{" + "id=" + id + ", surname=" + surname + ", names=" + names + ", birthDate=" + birthDate + ", addresses=" + addresses + '}';
+        return "UncompletePersonDTO{" + "id=" + id + ", names=" + names + ", birthDate=" + birthDate + ", addresses=" + addresses + '}';
     }
-    
-    
+
     public static class AddressDTO {
 
         String code;
-        String[] lines;
-        int area;
 
         public String getCode() {
             return code;
@@ -105,26 +84,10 @@ public class PersonWithAdditionalFieldsDTO {
         public void setCode(String code) {
             this.code = code;
         }
-
-        public String[] getLines() {
-            return lines;
-        }
-
-        public void setLines(String[] lines) {
-            this.lines = lines;
-        }
-
-        public int getArea() {
-            return area;
-        }
-
-        public void setArea(int area) {
-            this.area = area;
-        }
-
+        
         @Override
         public String toString() {
-            return "AddressDTO{" + "code=" + code + ", lines=" + lines + ", area=" + area + '}';
+            return "AddressDTO{" + "code=" + code + '}';
         }
         
     }

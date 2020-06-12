@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.impl;
 
-import com.worldline.graphql.dynaql.api.Request;
+import com.worldline.graphql.dynaql.api.GraphQLRequest;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -13,7 +13,7 @@ import java.util.Objects;
  * 
  * @author jefrajames
  */
-public class DynaQLRequest implements Request {
+public class DynaQLRequest implements GraphQLRequest {
 
     private final String request;
     private Map<String, Object> variables;
