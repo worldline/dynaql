@@ -1,12 +1,12 @@
-package com.worldline.graphql.dynaql.test;
+package core;
 
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.DynaQLField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLOperation;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
-import com.worldline.graphql.dynaql.test.utils.Utils;
+import helper.AssertGraphQL;
+import helper.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class ArraysTest {
 
     @Test
     public void arrays() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "arrays.graphql");
+        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/arrays.graphql");
 
         DynaQLDocument document = document(
                 operation(DynaQLOperation.Type.QUERY, "arrayHolderQuery",

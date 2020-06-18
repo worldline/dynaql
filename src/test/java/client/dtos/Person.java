@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.test.dtos;
+package client.dtos;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import java.time.LocalDate;
@@ -23,14 +23,14 @@ import java.util.List;
  *
  * @author jefrajames
  */
-public class PersonDTO {
+public class Person {
 
     int id;
     String surname;
     String[] names;
 
     @JsonbDateFormat("dd/MM/yyyy") // This is for JSON-B
-            LocalDate birthDate;
+    LocalDate birthDate;
 
     List<AddressDTO> addresses;
 

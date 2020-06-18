@@ -1,10 +1,10 @@
-package com.worldline.graphql.dynaql.test;
+package core;
 
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
-import com.worldline.graphql.dynaql.test.utils.Utils;
+import helper.AssertGraphQL;
+import helper.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class ScalarsTest {
 
     @Test
     public void scalars() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "scalars.graphql");
+        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/scalars.graphql");
 
         DynaQLDocument document = document(
                 operation(Operation.Type.MUTATION, "scalarHolderMutation",

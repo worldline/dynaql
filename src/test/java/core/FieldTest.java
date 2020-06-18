@@ -1,9 +1,9 @@
-package com.worldline.graphql.dynaql.test;
+package core;
 
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
-import com.worldline.graphql.dynaql.test.utils.Utils;
+import helper.AssertGraphQL;
+import helper.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class FieldTest {
 
     @Test
     public void fieldTest() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "field.graphql");
+        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/field.graphql");
 
         DynaQLDocument document = document(
                 operation(

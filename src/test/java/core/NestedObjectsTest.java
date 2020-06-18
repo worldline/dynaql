@@ -1,12 +1,12 @@
-package com.worldline.graphql.dynaql.test;
+package core;
 
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.DynaQLField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
-import com.worldline.graphql.dynaql.test.utils.AssertGraphQL;
-import com.worldline.graphql.dynaql.test.utils.Utils;
+import helper.AssertGraphQL;
+import helper.Utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class NestedObjectsTest {
 
     @Test
     public void nestedObjects() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "nestedObjects.graphql");
+        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/nestedObjects.graphql");
 
         DynaQLInputObject baseObject_0 = object(
                 prop("level", 0),
