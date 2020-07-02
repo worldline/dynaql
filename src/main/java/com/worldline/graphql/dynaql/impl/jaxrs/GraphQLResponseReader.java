@@ -1,6 +1,4 @@
 /*
- * Copyright 2020 jefrajames.
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,8 +41,6 @@ import java.util.List;
 /**
  * This is an implementation specific class and should not be in the
  * specification API.
- *
- * @author jefrajames
  */
 @Provider
 @Consumes("application/json")

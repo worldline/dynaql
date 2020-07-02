@@ -1,0 +1,17 @@
+{
+  "errors": [
+    {
+      "message": "Variable 'surname' has coerced Null value for NonNull type 'String!'",
+      "locations": [
+        {
+          "line": 1,
+          "column": 8
+        }
+      ],
+      "extensions": {
+        "classification": "ValidationError"
+      }
+    }
+  ],
+  "data": null
+}

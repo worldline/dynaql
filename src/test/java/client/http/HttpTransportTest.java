@@ -29,7 +29,6 @@ import helper.Utils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -44,12 +43,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * @author jefrajames
- */
+
 public class HttpTransportTest {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(HttpTransportTest.class);
     private static final Properties CONFIG = new Properties();
     private static String endpoint;
     private static GraphQLClientBuilder graphQLClientBuilder;

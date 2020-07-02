@@ -11,9 +11,10 @@
 
     <properties>
         <!-- Maven -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Testing -->
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
@@ -37,14 +38,13 @@
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.1</version>
         </dependency>
-
-
-        <!-- Implementation specific dependencies -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <version>2.0.2</version>
         </dependency>
+
+        <!-- Implementation specific dependencies -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -92,6 +92,18 @@
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
             <version>1.0.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>smallrye-rest-client</artifactId>
+            <version>1.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.13.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
