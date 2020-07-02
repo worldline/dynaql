@@ -108,7 +108,6 @@ public class HttpTransportTest {
 
         assertFalse(graphQLResponse.hasData());
         assertTrue(graphQLResponse.hasError());
-        graphQLResponse.getErrors().forEach(System.out::println);
         assertEquals(3, graphQLResponse.getErrors().size());
     }
 
