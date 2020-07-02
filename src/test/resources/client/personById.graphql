@@ -1,0 +1,12 @@
+{
+    person(personId: 1) {
+        addresses {
+            code
+            lines
+        }
+        names
+        surname
+        id
+        birthDate
+    }
+}

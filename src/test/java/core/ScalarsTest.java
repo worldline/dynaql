@@ -25,7 +25,7 @@ public class ScalarsTest {
 
     @Test
     public void scalars() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/scalars.graphql");
+        String expectedRequest = Utils.getResourceFileContent("core/scalars.graphql");
 
         DynaQLDocument document = document(
                 operation(Operation.Type.MUTATION, "scalarHolderMutation",

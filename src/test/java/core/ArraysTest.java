@@ -4,7 +4,6 @@ import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.DynaQLField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLOperation;
-import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
 import helper.Utils;
 import org.junit.jupiter.api.Test;
@@ -25,8 +24,8 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 public class ArraysTest {
 
     @Test
-    public void arrays() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/arrays.graphql");
+    public void arrays() throws IOException, URISyntaxException {
+        String expectedRequest = Utils.getResourceFileContent("core/arrays.graphql");
 
         DynaQLDocument document = document(
                 operation(DynaQLOperation.Type.QUERY, "arrayHolderQuery",

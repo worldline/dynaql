@@ -1,0 +1,9 @@
+query ($personId: Int!) {
+    profile(personId: $personId) {
+        person {
+            id
+            birthDate
+            names
+        }
+    }
+}

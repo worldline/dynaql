@@ -1,0 +1,8 @@
+mutation CreatePerson($surname: String!, $names: [String]!, $birthDate: String!) {
+    updatePerson(person: {names: $names, surname: $surname, birthDate: $birthDate}) {
+        id
+        names
+        surname
+        birthDate
+    }
+}

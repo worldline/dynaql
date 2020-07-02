@@ -1,0 +1,7 @@
+{
+    people {
+        surname_not_good
+        birthDate_not_good
+        profilePictures_not_good
+    }
+}

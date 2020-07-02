@@ -25,12 +25,14 @@ import com.worldline.graphql.dynaql.impl.http.HttpInvocation;
 import com.worldline.graphql.dynaql.impl.http.HttpInvocationBuilder;
 import com.worldline.graphql.dynaql.impl.http.HttpInvocationException;
 import com.worldline.graphql.dynaql.impl.http.HttpResponse;
+import helper.Utils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
@@ -43,7 +45,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- *
  * @author jefrajames
  */
 public class HttpTransportTest {
@@ -63,14 +64,14 @@ public class HttpTransportTest {
     }
 
     @AfterAll
-    public static void teardown () {
+    public static void teardown() {
         getWireMock().stop();
     }
 
 
     @Test
-    public void testQueryList() {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeople"));
+    public void testQueryList() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
         stubWireMock("allPeople.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
@@ -87,13 +88,13 @@ public class HttpTransportTest {
         assertFalse(graphQLResponse.hasError());
 
         List<Person> people = graphQLResponse.getList(Person.class, "people");
-        assertTrue(people.size() == 10);
+        assertEquals(10, people.size());
     }
 
     @Test
-    public void testGraphQLErrors() throws IOException {
-
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeopleWithErrors"));
+    public void testGraphQLErrors() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeopleWithErrors.graphql"));
+        stubWireMock("allPeopleWithErrors.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -108,13 +109,13 @@ public class HttpTransportTest {
         assertFalse(graphQLResponse.hasData());
         assertTrue(graphQLResponse.hasError());
         graphQLResponse.getErrors().forEach(System.out::println);
-        assertEquals(graphQLResponse.getErrors().size(), 3);
+        assertEquals(3, graphQLResponse.getErrors().size());
     }
 
     @Test
-    public void testHeader() throws IOException {
-
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("personById"));
+    public void testHeader() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/personById.graphql"));
+        stubWireMock("personById.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -133,36 +134,11 @@ public class HttpTransportTest {
     }
 
     @Test
-    public void testStringVariable() {
+    public void testStringVariable() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithStringVariable.graphql"));
+        stubWireMock("queryWithStringVariable.json");
 
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("queryWithStringVariable"));
-        graphQLRequest.addVariable("surname", "Grant");
-
-        HttpInvocation invocation = HttpInvocationBuilder
-                .newBuilder()
-                .uri(endpoint)
-                .graphQLRequest(graphQLRequest)
-                .build();
-
-        HttpResponse httpResponse = invocation.invoke();
-
-        GraphQLResponse graphQLResponse = httpResponse.getGraphQLResponse();
-
-        assertFalse(graphQLResponse.hasError());
-        assertTrue(graphQLResponse.hasData());
-
-        assertThrows(HttpInvocationException.class, () -> {
-            graphQLRequest.resetVariables();
-            // Variable required here!
-            invocation.invoke();
-        });
-    }
-
-    @Test
-    public void testIntVariable() {
-
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("queryWithIntVariable"));
-        graphQLRequest.addVariable("personId", 1);
+        graphQLRequest.addVariable("surname", "Zemlak");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -175,24 +151,36 @@ public class HttpTransportTest {
         GraphQLResponse graphQLResponse = httpResponse.getGraphQLResponse();
         assertFalse(graphQLResponse.hasError());
         assertTrue(graphQLResponse.hasData());
-
-        assertThrows(HttpInvocationException.class, () -> {
-            graphQLRequest.resetVariables();
-            // Variable required here!
-            invocation.invoke();
-        });
-
     }
 
     @Test
-    public void testCreatePerson() {
-        assertTrue(1 == 1);
+    public void testIntVariable() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithIntVariable.graphql"));
+        stubWireMock("queryWithIntVariable.json");
 
+        graphQLRequest.addVariable("personId", "2");
+
+        HttpInvocation invocation = HttpInvocationBuilder
+                .newBuilder()
+                .uri(endpoint)
+                .graphQLRequest(graphQLRequest)
+                .build();
+
+        HttpResponse httpResponse = invocation.invoke();
+
+        GraphQLResponse graphQLResponse = httpResponse.getGraphQLResponse();
+        assertFalse(graphQLResponse.hasError());
+        assertTrue(graphQLResponse.hasData());
+    }
+
+    @Test
+    public void testCreatePerson() throws IOException, URISyntaxException {
         GraphQLRequest graphQLRequest = graphQLClientBuilder
-                .newRequest(CONFIG.getProperty("createPersonWithVariables"))
+                .newRequest(Utils.getResourceFileContent("client/createPersonWithVariables.graphql"))
                 .addVariable("surname", "James")
                 .addVariable("names", "JF")
                 .addVariable("birthDate", "27/04/1962");
+        stubWireMock("createPersonWithVariables.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -210,13 +198,13 @@ public class HttpTransportTest {
         assertEquals(jfj.getSurname(), "James");
         assertEquals(jfj.getNames()[0], "JF");
         assertEquals(jfj.getBirthDate(), LocalDate.of(1962, 4, 27));
-
     }
 
     @Test
-    public void testProxyKO() {
+    public void testProxyKO() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        stubWireMock("allPeople.json");
 
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeople"));
         String proxyHostname = CONFIG.getProperty(HttpConfiguration.PROXY_HOSTNAME);
         int proxyPort = Integer.valueOf(CONFIG.getProperty(HttpConfiguration.PROXY_PORT)) + 1; // Deliberate error here
 
@@ -239,9 +227,10 @@ public class HttpTransportTest {
     }
 
     @Test
-    public void testProxyOK() {
+    public void testProxyOK() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        stubWireMock("allPeople.json");
 
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeople"));
         String proxyHostname = CONFIG.getProperty(HttpConfiguration.PROXY_HOSTNAME);
         int proxyPort = Integer.valueOf(CONFIG.getProperty(HttpConfiguration.PROXY_PORT));
 
@@ -264,13 +253,13 @@ public class HttpTransportTest {
         assertFalse(graphQLResponse.hasError());
 
         List<Person> people = graphQLResponse.getList(Person.class, "people");
-        assertTrue(people.size() >= 100);
+        assertEquals(10, people.size());
     }
 
     @Test
-    public void testTimeoutOK() {
-
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeople"));
+    public void testTimeoutOK() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        stubWireMock("allPeople.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -288,13 +277,12 @@ public class HttpTransportTest {
         GraphQLResponse graphQLResponse = httpResponse.getGraphQLResponse();
         assertTrue(graphQLResponse.hasData());
         assertFalse(graphQLResponse.hasError());
-
     }
 
     @Test
-    public void testTimeoutKO() {
-
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(CONFIG.getProperty("allPeople"));
+    public void testTimeoutKO() throws IOException, URISyntaxException {
+        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        stubWireMock("allPeople.json");
 
         HttpInvocation invocation = HttpInvocationBuilder
                 .newBuilder()
@@ -314,5 +302,4 @@ public class HttpTransportTest {
         });
 
     }
-
 }

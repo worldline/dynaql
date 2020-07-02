@@ -1,0 +1,14 @@
+{
+  "data": {
+    "profile": {
+      "person": {
+        "id": 2,
+        "birthDate": "06/07/2001",
+        "names": [
+          "Masako",
+          "Errol"
+        ]
+      }
+    }
+  }
+}

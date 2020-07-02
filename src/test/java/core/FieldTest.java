@@ -20,7 +20,7 @@ public class FieldTest {
 
     @Test
     public void fieldTest() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/field.graphql");
+        String expectedRequest = Utils.getResourceFileContent("core/field.graphql");
 
         DynaQLDocument document = document(
                 operation(

@@ -25,7 +25,7 @@ public class NestedObjectsTest {
 
     @Test
     public void nestedObjects() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent(getClass(), "core/nestedObjects.graphql");
+        String expectedRequest = Utils.getResourceFileContent("core/nestedObjects.graphql");
 
         DynaQLInputObject baseObject_0 = object(
                 prop("level", 0),

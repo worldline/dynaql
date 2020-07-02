@@ -1,0 +1,12 @@
+{
+  "data": {
+    "updatePerson": {
+      "id": 11,
+      "names": [
+        "JF"
+      ],
+      "surname": "James",
+      "birthDate": "27/04/1962"
+    }
+  }
+}

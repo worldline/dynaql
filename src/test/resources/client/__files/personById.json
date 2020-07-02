@@ -1,0 +1,33 @@
+{
+  "data": {
+    "person": {
+      "addresses": [
+        {
+          "code": "60896",
+          "lines": [
+            "0245 Vivien Springs",
+            "North Elbertmouth",
+            "New Mexico",
+            "Bosnia and Herzegovina"
+          ]
+        },
+        {
+          "code": "69136",
+          "lines": [
+            "26945 Chandra Coves",
+            "Streichbury",
+            "Minnesota",
+            "Sweden"
+          ]
+        }
+      ],
+      "names": [
+        "Christine",
+        "Fabian"
+      ],
+      "surname": "O'Reilly",
+      "id": 1,
+      "birthDate": "08/11/1977"
+    }
+  }
+}

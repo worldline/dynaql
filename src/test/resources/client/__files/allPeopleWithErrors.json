@@ -1,0 +1,59 @@
+{
+  "errors": [
+    {
+      "message": "Validation error of type FieldUndefined: Field 'surname_not_good' in type 'Person' is undefined @ 'people/surname_not_good'",
+      "locations": [
+        {
+          "line": 3,
+          "column": 9
+        }
+      ],
+      "extensions": {
+        "description": "Field 'surname_not_good' in type 'Person' is undefined",
+        "validationErrorType": "FieldUndefined",
+        "queryPath": [
+          "people",
+          "surname_not_good"
+        ],
+        "classification": "ValidationError"
+      }
+    },
+    {
+      "message": "Validation error of type FieldUndefined: Field 'birthDate_not_good' in type 'Person' is undefined @ 'people/birthDate_not_good'",
+      "locations": [
+        {
+          "line": 4,
+          "column": 9
+        }
+      ],
+      "extensions": {
+        "description": "Field 'birthDate_not_good' in type 'Person' is undefined",
+        "validationErrorType": "FieldUndefined",
+        "queryPath": [
+          "people",
+          "birthDate_not_good"
+        ],
+        "classification": "ValidationError"
+      }
+    },
+    {
+      "message": "Validation error of type FieldUndefined: Field 'profilePictures_not_good' in type 'Person' is undefined @ 'people/profilePictures_not_good'",
+      "locations": [
+        {
+          "line": 5,
+          "column": 9
+        }
+      ],
+      "extensions": {
+        "description": "Field 'profilePictures_not_good' in type 'Person' is undefined",
+        "validationErrorType": "FieldUndefined",
+        "queryPath": [
+          "people",
+          "profilePictures_not_good"
+        ],
+        "classification": "ValidationError"
+      }
+    }
+  ],
+  "data": null
+}

@@ -1,0 +1,6 @@
+query ($surname: String!) {
+    personsWithSurname(surname: $surname) {
+        birthDate
+        id
+    }
+}
