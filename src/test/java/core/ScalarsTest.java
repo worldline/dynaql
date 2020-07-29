@@ -2,6 +2,7 @@ package core;
 
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
+import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
 import helper.Utils;
@@ -16,8 +17,6 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLField.fields;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.object;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField.prop;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 
@@ -31,7 +30,7 @@ public class ScalarsTest {
                 operation(Operation.Type.MUTATION, "scalarHolderMutation",
                         field("scalarHolder",
                                 args(
-                                        arg("scalarHolder", object(
+                                        arg("scalarHolder", DynaQLInputObject.inputObject(
                                                 prop("booleanPrimitive", false),
                                                 prop("booleanObject", Boolean.valueOf(true)),
 
@@ -41,7 +40,7 @@ public class ScalarsTest {
                                                 prop("shortPrimitive", Short.MIN_VALUE),
                                                 prop("shortObject", Short.valueOf(Short.MAX_VALUE)),
 
-                                                prop("intPrimitive", Integer.MIN_VALUE),
+                                                prop("intPrimitive", Integer.MIN_VALUE + 1),
                                                 prop("intObject", Integer.valueOf(Integer.MAX_VALUE)),
 
                                                 prop("longPrimitive", Long.MIN_VALUE),
@@ -61,38 +60,37 @@ public class ScalarsTest {
 
                                                 prop("stringObject", "Hello World !")
                                         ))),
-                                fields(
-                                        field("booleanPrimitive"),
-                                        field("booleanObject"),
+                                field("booleanPrimitive"),
+                                field("booleanObject"),
 
-                                        field("bytePrimitive"),
-                                        field("byteObject"),
+                                field("bytePrimitive"),
+                                field("byteObject"),
 
-                                        field("shortPrimitive"),
-                                        field("shortObject"),
+                                field("shortPrimitive"),
+                                field("shortObject"),
 
-                                        field("intPrimitive"),
-                                        field("intObject"),
+                                field("intPrimitive"),
+                                field("intObject"),
 
-                                        field("longPrimitive"),
-                                        field("longObject"),
+                                field("longPrimitive"),
+                                field("longObject"),
 
-                                        field("floatPrimitive"),
-                                        field("floatObject"),
+                                field("floatPrimitive"),
+                                field("floatObject"),
 
-                                        field("doublePrimitive"),
-                                        field("doubleObject"),
+                                field("doublePrimitive"),
+                                field("doubleObject"),
 
-                                        field("bigInteger"),
-                                        field("bigDecimal"),
+                                field("bigInteger"),
+                                field("bigDecimal"),
 
-                                        field("charPrimitive"),
-                                        field("charObject"),
+                                field("charPrimitive"),
+                                field("charObject"),
 
-                                        field("stringObject")
-                                )
+                                field("stringObject")
                         )
-                ));
+                )
+        );
 
         String generatedRequest = document.build();
         //System.out.println(generatedRequest);

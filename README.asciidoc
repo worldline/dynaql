@@ -221,6 +221,54 @@ When omitted,
 * *name* parameter will default to an _empty string_
 ****
 
+=== Variables
+[source,Java]
+----
+public interface Variable extends Buildable {
+
+    String getName();
+
+    void setName(String name);
+
+    VariableType getType();
+
+    void setType(VariableType value);
+
+    Object getDefaultValue();
+
+    void setDefaultValue(Object value);
+}
+----
+
+==== Static factory methods
+[source,Java]
+----
+@SafeVarargs
+public static List<DynaQLVariable> vars(DynaQLVariable... vars) {
+    return asList(vars);
+}
+
+// (name, ScalarType)
+public static DynaQLVariable var(String name, GraphQLScalarType scalarType) {
+    return new DynaQLVariable(name, scalarType, null);
+}
+
+// (name, ScalarType, defaultValue)
+public static DynaQLVariable var(String name, GraphQLScalarType scalarType, Object defaultValue) {
+    return new DynaQLVariable(name, scalarType, defaultValue);
+}
+
+// (name, VariableType)
+public static DynaQLVariable var(String name, DynaQLVariableType type) {
+    return new DynaQLVariable(name, type, null);
+}
+
+// (name, VariableType, defaultValue)
+public static DynaQLVariable var(String name, DynaQLVariableType type, Object defaultValue) {
+    return new DynaQLVariable(name, type, defaultValue);
+}
+----
+
 === Field
 
 [source,Java]
@@ -321,8 +369,8 @@ public interface InputObject extends Buildable {
 [source,Java]
 ----
 @SafeVarargs
-public static InputObject object(InputObjectField... inputObjectFields);
-public static InputObject object(List<InputObjectField> inputObjectFields);
+public static InputObject inputObject(InputObjectField... inputObjectFields);
+public static InputObject inputObject(List<InputObjectField> inputObjectFields);
 ----
 
 === Input Object Field

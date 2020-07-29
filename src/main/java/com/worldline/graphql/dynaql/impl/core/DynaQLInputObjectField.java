@@ -9,13 +9,31 @@ public class DynaQLInputObjectField implements InputObjectField {
     private String name;
     private Object value;
 
+    /*
+    Static factory methods
+     */
+    // (name, value)
     public static DynaQLInputObjectField prop(String name, Object value) {
         return new DynaQLInputObjectField(name, value);
     }
 
+    // (name, variable)
+    public static DynaQLInputObjectField prop(String name, DynaQLVariable var) {
+        return new DynaQLInputObjectField(name, var);
+    }
+
+
+    /*
+    Constructors
+     */
     public DynaQLInputObjectField(String name, Object value) {
         this.name = name;
         this.value = value;
+    }
+
+    public DynaQLInputObjectField(String name, DynaQLVariable var) {
+        this.name = name;
+        this.value = var;
     }
 
     @Override

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 
  * @author jefrajames
  */
 public class DynaQLRequest implements GraphQLRequest {
@@ -33,18 +32,18 @@ public class DynaQLRequest implements GraphQLRequest {
 
     @Override
     public DynaQLRequest addVariable(String name, Object value) {
-        if ( variables==null )
+        if (variables == null)
             variables = new HashMap<>();
-        
+
         variables.put(name, value);
         return this;
     }
-    
+
     @Override
-     public DynaQLRequest resetVariables() {
-         variables = null;
-         return this;
-     }
+    public DynaQLRequest resetVariables() {
+        variables = null;
+        return this;
+    }
 
     @Override
     public String toString() {
@@ -69,7 +68,7 @@ public class DynaQLRequest implements GraphQLRequest {
     @Override
     public String toJson() {
         JsonObjectBuilder queryBuilder = Json.createObjectBuilder().add("query", request);
-        if (variables!=null) {
+        if (variables != null) {
             queryBuilder.add("variables", formatJsonVariables());
         }
 

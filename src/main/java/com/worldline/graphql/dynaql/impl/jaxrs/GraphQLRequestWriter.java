@@ -54,5 +54,4 @@ public class GraphQLRequestWriter implements MessageBodyWriter<DynaQLRequest> {
         writer.flush();
         writer.close();
     }
-
 }

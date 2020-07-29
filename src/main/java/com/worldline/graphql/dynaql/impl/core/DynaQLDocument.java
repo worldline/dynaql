@@ -12,7 +12,7 @@ public class DynaQLDocument implements Document {
 
     @SafeVarargs
     public static DynaQLDocument document(Operation... operations) {
-        return new DynaQLDocument(asList(operations));
+        return document(asList(operations));
     }
     public static DynaQLDocument document(List<Operation> operations) {
         return new DynaQLDocument(operations);

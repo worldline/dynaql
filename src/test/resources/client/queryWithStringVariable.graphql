@@ -1,4 +1,4 @@
-query ($surname: String!) {
+query ($surname: [String!]!) {
     personsWithSurname(surname: $surname) {
         birthDate
         id

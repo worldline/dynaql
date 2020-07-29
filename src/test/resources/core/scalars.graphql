@@ -9,7 +9,7 @@ mutation scalarHolderMutation {
         shortPrimitive: -32768
         shortObject: 32767
 
-        intPrimitive: -2147483648
+        intPrimitive: -2147483647
         intObject: 2147483647
 
         longPrimitive: -9223372036854775808

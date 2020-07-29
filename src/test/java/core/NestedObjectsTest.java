@@ -2,7 +2,6 @@ package core;
 
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
-import com.worldline.graphql.dynaql.impl.core.DynaQLField;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
@@ -16,7 +15,6 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.object;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField.prop;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 
@@ -27,25 +25,25 @@ public class NestedObjectsTest {
     public void nestedObjects() throws IOException, URISyntaxException, BuilderException {
         String expectedRequest = Utils.getResourceFileContent("core/nestedObjects.graphql");
 
-        DynaQLInputObject baseObject_0 = object(
+        DynaQLInputObject baseObject_0 = DynaQLInputObject.inputObject(
                 prop("level", 0),
                 prop("name", "level 0"),
                 prop("levelLineage", new byte[]{}),
                 prop("nestedObjectLineage", new DynaQLInputObject[]{})
         );
-        DynaQLInputObject baseObject_1 = object(
+        DynaQLInputObject baseObject_1 = DynaQLInputObject.inputObject(
                 prop("level", 1),
                 prop("name", "level 1"),
                 prop("levelLineage", new byte[]{0}),
                 prop("nestedObjectLineage", new DynaQLInputObject[]{baseObject_0})
         );
-        DynaQLInputObject baseObject_2 = object(
+        DynaQLInputObject baseObject_2 = DynaQLInputObject.inputObject(
                 prop("level", 2),
                 prop("name", "level 2"),
                 prop("levelLineage", new byte[]{0, 1}),
                 prop("nestedObjectLineage", new DynaQLInputObject[]{baseObject_0, baseObject_1})
         );
-        DynaQLInputObject baseObject_3 = object(
+        DynaQLInputObject baseObject_3 = DynaQLInputObject.inputObject(
                 prop("level", 3),
                 prop("name", "level 3"),
                 prop("levelLineage", new byte[]{0, 1, 2}),
@@ -68,10 +66,10 @@ public class NestedObjectsTest {
         DynaQLInputObject object_0 = (DynaQLInputObject) baseObject_0.clone();
         object_0.getInputObjectFields().add(prop("nestedObject", object_1));
 
-        DynaQLDocument document =  document(
+        DynaQLDocument document = document(
                 operation(Operation.Type.MUTATION, "nestedObjects",
                         field("nestedObjectHolder", args(
-                                arg("nestedObjectHolder", object_0)), DynaQLField.fields(
+                                arg("nestedObjectHolder", object_0)),
                                 field("level"),
                                 field("name"),
                                 field("levelLineage"),
@@ -190,7 +188,7 @@ public class NestedObjectsTest {
                                                                                                 field("nestedObjectLineage",
                                                                                                         field("level"),
                                                                                                         field("name"),
-                                                                                                        field("levelLineage"))))))))))))));
+                                                                                                        field("levelLineage")))))))))))));
 
         String generatedRequest = document.build();
         //System.out.println(generatedRequest);

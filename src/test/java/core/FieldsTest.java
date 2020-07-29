@@ -1,5 +1,6 @@
 package core;
 
+import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
@@ -13,17 +14,16 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLField.fields;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 
-public class FieldTest {
+public class FieldsTest {
 
     @Test
     public void fieldTest() throws IOException, URISyntaxException, BuilderException {
-        String expectedRequest = Utils.getResourceFileContent("core/field.graphql");
+        String expectedRequest = Utils.getResourceFileContent("core/fields.graphql");
 
         DynaQLDocument document = document(
-                operation(
+                operation(Operation.Type.QUERY,
                         field("noArgNoSubField"),
                         field("noArgWithSubField",
                                 field("bool"),
@@ -34,12 +34,12 @@ public class FieldTest {
                         field("withArgWithSubField", args(
                                 arg("aString", "world"),
                                 arg("aDouble", 78.12d),
-                                arg("aBool", false)), fields(
-                                field("bool"),
-                                field("string"),
-                                field("double")
+                                arg("aBool", false)),
+                                    field("bool"),
+                                    field("string"),
+                                    field("double")
                         ))
-                ));
+        );
 
         String generatedRequest = document.build();
         //System.out.println(generatedRequest);

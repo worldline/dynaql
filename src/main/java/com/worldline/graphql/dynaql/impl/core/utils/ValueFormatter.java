@@ -2,6 +2,7 @@ package com.worldline.graphql.dynaql.impl.core.utils;
 
 import com.worldline.graphql.dynaql.impl.core.DynaQLEnum;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
+import com.worldline.graphql.dynaql.impl.core.DynaQLVariable;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 
 import java.lang.reflect.Array;
@@ -14,6 +15,9 @@ public class ValueFormatter {
 
         if (value == null) {
             builder.append("null");
+        } else if (value instanceof DynaQLVariable) {
+            DynaQLVariable var = (DynaQLVariable) value;
+            builder.append("$" + var.getName());
         } else if (value instanceof DynaQLInputObject) {
             DynaQLInputObject inputObject = (DynaQLInputObject) value;
             builder.append(inputObject.build());

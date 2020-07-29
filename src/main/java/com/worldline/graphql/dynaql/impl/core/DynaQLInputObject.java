@@ -12,15 +12,17 @@ import static java.util.Collections.emptyList;
 public class DynaQLInputObject implements InputObject, Cloneable {
     private List<DynaQLInputObjectField> inputObjectFields;
 
+    /*
+    Static factory methods
+     */
     @SafeVarargs
-    public static DynaQLInputObject object(DynaQLInputObjectField... inputObjectFields) {
+    public static DynaQLInputObject inputObject(DynaQLInputObjectField... inputObjectFields) {
         return new DynaQLInputObject(asList(inputObjectFields));
     }
-    public static DynaQLInputObject object(List<DynaQLInputObjectField> inputObjectFields) {
-        return new DynaQLInputObject(inputObjectFields);
-    }
 
-
+    /*
+    Constructors
+     */
     public DynaQLInputObject(List<DynaQLInputObjectField> inputObjectFields) {
         this.inputObjectFields = inputObjectFields;
     }
@@ -35,7 +37,7 @@ public class DynaQLInputObject implements InputObject, Cloneable {
             DynaQLInputObjectField inputObjectField = inputObjectFields[i];
             builder.append(inputObjectField.build());
             if (i < inputObjectFields.length - 1) {
-                builder.append(",");
+                builder.append(" ");
             }
         }
         builder.append("}");

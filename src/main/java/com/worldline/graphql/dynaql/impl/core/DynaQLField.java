@@ -13,37 +13,40 @@ public class DynaQLField implements Field {
     private List<DynaQLArgument> arguments;
     private List<DynaQLField> fields;
 
+    /*
+    Static factory methods
+     */
     @SafeVarargs
     public static List<DynaQLField> fields(DynaQLField... fields) {
         return asList(fields);
     }
 
+    // (name)
     public static DynaQLField field(String name) {
         return new DynaQLField(name, emptyList(), emptyList());
     }
 
+    // (name, subfields)
     @SafeVarargs
     public static DynaQLField field(String name, DynaQLField... fields) {
         return new DynaQLField(name, emptyList(), asList(fields));
     }
-    public static DynaQLField field(String name, List<DynaQLField> fields) {
-        return new DynaQLField(name, emptyList(), fields);
-    }
 
+    // (name, args)
     @SafeVarargs
     public static DynaQLField field(String name, DynaQLArgument... args) {
         return new DynaQLField(name, asList(args), emptyList());
     }
 
+    // (name, args, subfields)
     @SafeVarargs
     public static DynaQLField field(String name, List<DynaQLArgument> args, DynaQLField... fields) {
         return new DynaQLField(name, args, asList(fields));
     }
-    public static DynaQLField field(String name, List<DynaQLArgument> args, List<DynaQLField> fields) {
-        return new DynaQLField(name, args, fields);
-    }
 
-
+    /*
+    Constructors
+     */
     public DynaQLField(String name, List<DynaQLArgument> args, List<DynaQLField> fields) {
         this.name = name;
         this.arguments = args;
@@ -81,7 +84,7 @@ public class DynaQLField implements Field {
             DynaQLArgument argument = arguments[i];
             builder.append(argument.build());
             if (i < arguments.length - 1) {
-                builder.append(",");
+                builder.append(", ");
             }
         }
 
