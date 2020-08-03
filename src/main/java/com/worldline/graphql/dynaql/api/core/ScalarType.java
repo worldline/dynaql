@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.api.core;
 
-public enum GraphQLScalarType {
+public enum ScalarType {
     GQL_INT("Int"),
     GQL_FLOAT("Float"),
     GQL_STRING("String"),
@@ -9,7 +9,7 @@ public enum GraphQLScalarType {
 
     private String type;
 
-    GraphQLScalarType(String type) {
+    ScalarType(String type) {
         this.type = type;
     }
 

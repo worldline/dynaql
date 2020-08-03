@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.worldline.graphql.dynaql.api;
+package com.worldline.graphql.dynaql.api.core;
 
+public interface Enum {
 
-public interface GraphQLClientBuilder {
-    GraphQLRequest newRequest(String request);
+    String getValue();
+    void setValue(String value);
 }

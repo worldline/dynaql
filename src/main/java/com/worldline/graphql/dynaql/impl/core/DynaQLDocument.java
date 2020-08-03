@@ -10,16 +10,19 @@ import static java.util.Arrays.asList;
 public class DynaQLDocument implements Document {
     private List<DynaQLOperation> operations;
 
+    /*
+    Static factory methods
+     */
     @SafeVarargs
-    public static DynaQLDocument document(Operation... operations) {
-        return document(asList(operations));
-    }
-    public static DynaQLDocument document(List<Operation> operations) {
-        return new DynaQLDocument(operations);
+    public static DynaQLDocument document(DynaQLOperation... operations) {
+        return new DynaQLDocument(asList(operations));
     }
 
-    public DynaQLDocument(List<? extends Operation> operations) {
-        this.operations = (List<DynaQLOperation>)operations;
+    /*
+    Constructors
+    */
+    public DynaQLDocument(List<DynaQLOperation> operations) {
+        this.operations = operations;
     }
 
     @Override
@@ -38,6 +41,6 @@ public class DynaQLDocument implements Document {
     }
 
     public void setOperations(List<? extends Operation> operations) {
-        this.operations = (List<DynaQLOperation>)operations;
+        this.operations = (List<DynaQLOperation>) operations;
     }
 }

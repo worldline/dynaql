@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.GraphQLScalarType;
+import com.worldline.graphql.dynaql.api.core.ScalarType;
 import com.worldline.graphql.dynaql.api.core.VariableType;
 
 public class DynaQLVariableType implements VariableType {
@@ -12,7 +12,7 @@ public class DynaQLVariableType implements VariableType {
     Static factory methods
      */
     // (scalarType)
-    public static DynaQLVariableType nonNull(GraphQLScalarType scalarType) {
+    public static DynaQLVariableType nonNull(ScalarType scalarType) {
         return new DynaQLVariableType(scalarType.toString(), true, null);
     }
 
@@ -28,7 +28,7 @@ public class DynaQLVariableType implements VariableType {
     }
 
     // (scalarType)
-    public static DynaQLVariableType list(GraphQLScalarType scalarType) {
+    public static DynaQLVariableType list(ScalarType scalarType) {
         DynaQLVariableType childVarType = new DynaQLVariableType(scalarType.toString(), false, null);
         return new DynaQLVariableType(childVarType.getName(), false, childVarType);
     }

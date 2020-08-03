@@ -15,8 +15,8 @@
  */
 package com.worldline.graphql.dynaql.impl.http;
 
-import com.worldline.graphql.dynaql.api.GraphQLRequest;
-import com.worldline.graphql.dynaql.api.GraphQLResponse;
+import com.worldline.graphql.dynaql.api.Error;
+import com.worldline.graphql.dynaql.api.Request;
 import com.worldline.graphql.dynaql.impl.DynaQLResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -47,26 +47,25 @@ import java.util.Map;
 import static com.worldline.graphql.dynaql.impl.http.HttpConfiguration.REQUEST_CONFIG;
 
 /**
- *
  * @author jefrajames
  */
 public class HttpInvocation {
 
     private final HttpConfiguration configuration;
     private final URI uri;
-    private final GraphQLRequest graphqlRequest;
+    private final Request graphqlRequest;
     private final Map<String, String> headers;
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(HttpInvocation.class);
 
     private static final int MAX_LOG_LENGTH = 128;
 
-    protected HttpInvocation(HttpConfiguration configuration, URI uri, GraphQLRequest request, Map<String, String> headers) {
+    protected HttpInvocation(HttpConfiguration configuration, URI uri, Request request, Map<String, String> headers) {
         this.configuration = configuration;
         this.uri = uri;
         this.graphqlRequest = request;
         this.headers = headers;
-    }  
+    }
 
     private String postHttp(StringEntity stringEntity, HttpResponse httpResponse) throws IOException {
 
@@ -74,7 +73,7 @@ public class HttpInvocation {
 
             HttpPost httpPost = new HttpPost(uri);
 
-            httpPost.setConfig((RequestConfig)configuration.get(REQUEST_CONFIG));
+            httpPost.setConfig((RequestConfig) configuration.get(REQUEST_CONFIG));
 
             // Set the HTTP headers
             if (headers != null) {
@@ -95,12 +94,12 @@ public class HttpInvocation {
                 InputStream contentStream = serverResponse.getEntity().getContent();
 
                 String contentString = IOUtils.toString(contentStream, "UTF-8");
-                
+
                 if (serverResponse.getStatusLine().getStatusCode() != 200) {
                     log.warn("HTTP response code NOK " + serverResponse.getStatusLine().getStatusCode());
                     throw new HttpResponseException(serverResponse.getStatusLine().getStatusCode(), "The server responded with" + contentString);
                 }
-        
+
                 log.info("Received GraphQL response: " + (contentString.length() <= MAX_LOG_LENGTH ? contentString : contentString.substring(0, MAX_LOG_LENGTH) + " etc..."));
 
                 return contentString;
@@ -137,7 +136,7 @@ public class HttpInvocation {
             log.warn("GraphQL errors element detected");
             JsonArray rawErrors = jsonResponse.getJsonArray("errors");
             Jsonb jsonb = JsonbBuilder.create();
-            List<GraphQLResponse.GraphQLError> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
+            List<Error> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
             }.getClass().getGenericSuperclass());
             graphQLResponse.setErrors(errors);
             try {

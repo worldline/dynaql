@@ -15,7 +15,7 @@
  */
 package com.worldline.graphql.dynaql.impl.cdi;
 
-import com.worldline.graphql.dynaql.api.GraphQLClientBuilder;
+import com.worldline.graphql.dynaql.api.ClientBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -29,7 +29,7 @@ import java.util.ServiceLoader;
 public class ClientBuilderProducer {
     
     @Produces
-    public GraphQLClientBuilder produce() {
-        return ServiceLoader.load(GraphQLClientBuilder.class).iterator().next();
+    public ClientBuilder produce() {
+        return ServiceLoader.load(ClientBuilder.class).iterator().next();
     }
 }

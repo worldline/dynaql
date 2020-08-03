@@ -19,12 +19,17 @@ public class DynaQLArgument implements Argument {
         return asList(args);
     }
 
+    // (name, raw value)
     public static DynaQLArgument arg(String name, Object value) {
         return new DynaQLArgument(name, value);
     }
+
+    // (name, inputObject)
     public static DynaQLArgument arg(String name, DynaQLInputObject inputObject) {
         return new DynaQLArgument(name, inputObject);
     }
+
+    // (name, variable)
     public static DynaQLArgument arg(String name, DynaQLVariable var) {
         return new DynaQLArgument(name, var);
     }

@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.GraphQLScalarType;
+import com.worldline.graphql.dynaql.api.core.ScalarType;
 import com.worldline.graphql.dynaql.api.core.Variable;
 import com.worldline.graphql.dynaql.api.core.VariableType;
 
@@ -23,12 +23,12 @@ public class DynaQLVariable implements Variable {
     }
 
     // (name, scalarType)
-    public static DynaQLVariable var(String name, GraphQLScalarType scalarType) {
+    public static DynaQLVariable var(String name, ScalarType scalarType) {
         return new DynaQLVariable(name, scalarType.toString(), null);
     }
 
     // (name, scalarType, defaultValue)
-    public static DynaQLVariable var(String name, GraphQLScalarType scalarType, Object defaultValue) {
+    public static DynaQLVariable var(String name, ScalarType scalarType, Object defaultValue) {
         return new DynaQLVariable(name, scalarType.toString(), defaultValue);
     }
 

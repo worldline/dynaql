@@ -19,7 +19,7 @@ package com.worldline.graphql.dynaql.api.core;
 import java.util.List;
 
 public interface InputObject extends Buildable {
-    List<? extends InputObjectField> getInputObjectFields();
 
+    List<? extends InputObjectField> getInputObjectFields();
     void setInputObjectFields(List<? extends InputObjectField> inputObjectFields);
 }

@@ -15,7 +15,7 @@
  */
 package com.worldline.graphql.dynaql.impl.http;
 
-import com.worldline.graphql.dynaql.api.GraphQLRequest;
+import com.worldline.graphql.dynaql.api.Request;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class HttpInvocationBuilder {
 
     private final HttpConfiguration configuration;
     private URI uri;
-    private GraphQLRequest graphqlRequest;
+    private Request graphqlRequest;
     private final Map<String, String> headers;
 
     private HttpInvocationBuilder() {
@@ -72,7 +72,7 @@ public class HttpInvocationBuilder {
         return this;
     }
 
-    public HttpInvocationBuilder graphQLRequest(GraphQLRequest graphqlRequest) {
+    public HttpInvocationBuilder graphQLRequest(Request graphqlRequest) {
         this.graphqlRequest = graphqlRequest;
         return this;
     }

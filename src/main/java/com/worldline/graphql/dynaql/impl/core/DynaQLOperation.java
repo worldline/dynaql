@@ -27,25 +27,25 @@ public class DynaQLOperation implements Operation {
     // (fields)
     @SafeVarargs
     public static DynaQLOperation operation(DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, null, emptyList(), asList(fields));
+        return new DynaQLOperation(Type.QUERY, "", emptyList(), asList(fields));
     }
 
     // (vars, fields)
     @SafeVarargs
     public static DynaQLOperation operation(List<DynaQLVariable> vars, DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, null, vars, asList(fields));
+        return new DynaQLOperation(Type.QUERY, "", vars, asList(fields));
     }
 
     // (type, fields)
     @SafeVarargs
     public static DynaQLOperation operation(Type type, DynaQLField... fields) {
-        return new DynaQLOperation(type, null, emptyList(), asList(fields));
+        return new DynaQLOperation(type, "", emptyList(), asList(fields));
     }
 
     // (type, vars, fields)
     @SafeVarargs
     public static DynaQLOperation operation(Type type, List<DynaQLVariable> vars, DynaQLField... fields) {
-        return new DynaQLOperation(type, null, vars, asList(fields));
+        return new DynaQLOperation(type, "", vars, asList(fields));
     }
 
     // (name, fields)
@@ -101,8 +101,8 @@ public class DynaQLOperation implements Operation {
                 throw new BuilderException("Operation type must be one of QUERY, MUTATION or SUBSCRIPTION");
         }
 
-        if (this.name != null)
-            builder.append(" " + this.name);
+        builder.append(" ");
+        builder.append(this.name);
 
         if (!this.variables.isEmpty()) {
             _buildVariables(builder);

@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static com.worldline.graphql.dynaql.api.core.GraphQLScalarType.GQL_BOOL;
-import static com.worldline.graphql.dynaql.api.core.GraphQLScalarType.GQL_FLOAT;
-import static com.worldline.graphql.dynaql.api.core.GraphQLScalarType.GQL_ID;
-import static com.worldline.graphql.dynaql.api.core.GraphQLScalarType.GQL_INT;
-import static com.worldline.graphql.dynaql.api.core.GraphQLScalarType.GQL_STRING;
+import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_BOOL;
+import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_FLOAT;
+import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_ID;
+import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_INT;
+import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_STRING;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;

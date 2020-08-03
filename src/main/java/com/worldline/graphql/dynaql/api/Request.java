@@ -16,12 +16,11 @@
 
 package com.worldline.graphql.dynaql.api;
 
-public interface GraphQLRequest {
+public interface Request {
 
-    GraphQLRequest addVariable(String name, Object value);
+    Request addVariable(String name, Object value);
 
-    GraphQLRequest resetVariables();
+    Request resetVariables();
 
     String toJson();
-    
 }

@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.worldline.graphql.dynaql.api.core;
+package com.worldline.graphql.dynaql.api;
 
-public interface GraphQLEnum {
 
-    String getValue();
-
-    void setValue(String value);
+public interface ClientBuilder {
+    Request newRequest(String request);
 }

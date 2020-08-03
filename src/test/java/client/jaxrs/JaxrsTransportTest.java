@@ -17,9 +17,9 @@ package client.jaxrs;
 
 import client.dtos.Person;
 import client.dtos.Profile;
-import com.worldline.graphql.dynaql.api.GraphQLClientBuilder;
-import com.worldline.graphql.dynaql.api.GraphQLRequest;
-import com.worldline.graphql.dynaql.api.GraphQLResponse;
+import com.worldline.graphql.dynaql.api.ClientBuilder;
+import com.worldline.graphql.dynaql.api.Request;
+import com.worldline.graphql.dynaql.api.Response;
 import com.worldline.graphql.dynaql.impl.DynaQLClientBuilder;
 import com.worldline.graphql.dynaql.impl.jaxrs.GraphQLRequestWriter;
 import com.worldline.graphql.dynaql.impl.jaxrs.GraphQLResponseReader;
@@ -31,11 +31,9 @@ import org.junit.jupiter.api.Test;
 import javax.json.JsonObject;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -57,20 +55,20 @@ public class JaxrsTransportTest {
 
     private static final Properties CONFIG = new Properties();
     private static String endpoint;
-    private static ClientBuilder clientBuilder;
-    private static GraphQLClientBuilder graphQLClientBuilder;
+    private static javax.ws.rs.client.ClientBuilder jaxrsClientBuilder;
+    private static ClientBuilder gqlClientBuilder;
 
     @BeforeAll
     public static void beforeClass() throws IOException {
         CONFIG.load(JaxrsTransportTest.class.getClassLoader().getResourceAsStream("client/graphql-config.properties"));
         endpoint = CONFIG.getProperty("endpoint");
-        clientBuilder = ClientBuilder
+        jaxrsClientBuilder = javax.ws.rs.client.ClientBuilder
                 .newBuilder()
                 .register(GraphQLResponseReader.class)
                 .register(GraphQLRequestWriter.class)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(2, TimeUnit.SECONDS);
-        graphQLClientBuilder = new DynaQLClientBuilder();
+        gqlClientBuilder = new DynaQLClientBuilder();
 
         getWireMock().start();
     }
@@ -82,18 +80,18 @@ public class JaxrsTransportTest {
 
     @Test
     public void testQueryList() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
         stubWireMock("allPeople.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
         WebTarget target = client.target(endpoint);
 
-        Response response = target.request(MediaType.APPLICATION_JSON).post(json(graphQLRequest));
+        javax.ws.rs.core.Response response = target.request(MediaType.APPLICATION_JSON).post(json(request));
 
         assertEquals(response.getStatus(), 200);
 
-        GraphQLResponse graphQLResponse = response.readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response.readEntity(Response.class);
         assertTrue(graphQLResponse.hasData());
         assertFalse(graphQLResponse.hasError());
 
@@ -105,20 +103,20 @@ public class JaxrsTransportTest {
 
     @Test
     public void testGraphQLErrors() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeopleWithErrors.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeopleWithErrors.graphql"));
         stubWireMock("allPeopleWithErrors.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request(MediaType.APPLICATION_JSON)
                 // Same as .post(json(graphQLRequest))
-                .post(Entity.entity(graphQLRequest, MediaType.APPLICATION_JSON));
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON));
 
         assertEquals(response.getStatus(), 200);
 
-        GraphQLResponse graphQLResponse = response.readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response.readEntity(Response.class);
 
         assertFalse(graphQLResponse.hasData());
         assertTrue(graphQLResponse.hasError());
@@ -129,20 +127,20 @@ public class JaxrsTransportTest {
 
     @Test
     public void testHeader() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/personById.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/personById.graphql"));
         stubWireMock("personById.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer: JWT")
-                .post(json(graphQLRequest));
+                .post(json(request));
 
         assertEquals(response.getStatus(), 200);
 
-        GraphQLResponse graphQLResponse = response.readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response.readEntity(Response.class);
 
         assertTrue(graphQLResponse.hasData());
         assertFalse(graphQLResponse.hasError());
@@ -152,45 +150,45 @@ public class JaxrsTransportTest {
 
     @Test
     public void testStringVariable() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithStringVariable.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithStringVariable.graphql"));
         stubWireMock("queryWithStringVariable.json");
 
-        graphQLRequest.addVariable("surname", "Zemlak");
+        request.addVariable("surname", "Zemlak");
 
-        Client client = clientBuilder.build();
+        Client client =jaxrsClientBuilder.build();
 
         // Here, we directly get a GraphQLResponse typed entity
-        GraphQLResponse graphQLResponse = client
+        Response response = client
                 .target(endpoint)
                 .request(MediaType.APPLICATION_JSON)
-                .post(json(graphQLRequest), GraphQLResponse.class);
+                .post(json(request), Response.class);
 
-        assertFalse(graphQLResponse.hasError());
-        assertTrue(graphQLResponse.hasData());
+        assertFalse(response.hasError());
+        assertTrue(response.hasData());
 
-        List<Person> people = graphQLResponse.getList(Person.class, "personsWithSurname");
+        List<Person> people = response.getList(Person.class, "personsWithSurname");
 
         client.close();
     }
 
     @Test
     public void testIntVariable() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithIntVariable.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithIntVariable.graphql"));
         stubWireMock("queryWithIntVariable.json");
 
-        graphQLRequest.addVariable("personId", "2");
+        request.addVariable("personId", "2");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request() // Here we don't specify that we expect application/json content
-                .post(json(graphQLRequest));
+                .post(json(request));
 
         assertEquals(response.getStatus(), 200);
 
-        GraphQLResponse graphQLResponse = response
-                .readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response
+                .readEntity(Response.class);
 
         assertFalse(graphQLResponse.hasError());
         assertTrue(graphQLResponse.hasData());
@@ -212,24 +210,24 @@ public class JaxrsTransportTest {
 
     @Test
     public void testCreatePerson() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder
+        Request request = gqlClientBuilder
                 .newRequest(Utils.getResourceFileContent("client/createPersonWithVariables.graphql"))
                 .addVariable("surname", "James")
                 .addVariable("names", "JF")
                 .addVariable("birthDate", "27/04/1962");
         stubWireMock("createPersonWithVariables.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request(MediaType.APPLICATION_JSON) // Here we don't specify that we expect application/json content
-                .post(json(graphQLRequest));
+                .post(json(request));
 
         assertEquals(response.getStatus(), 200);
 
-        GraphQLResponse graphQLResponse = response
-                .readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response
+                .readEntity(Response.class);
         assertFalse(graphQLResponse.hasError());
         assertTrue(graphQLResponse.hasData());
 
@@ -244,20 +242,20 @@ public class JaxrsTransportTest {
     // No Proxy test here: not JAX-RS standard!
     @Test
     public void testTimeoutOK() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
         stubWireMock("allPeople.json");
 
-        Client client = clientBuilder
+        Client client = jaxrsClientBuilder
                 .connectTimeout(200, TimeUnit.MILLISECONDS)
                 .readTimeout(400, TimeUnit.MILLISECONDS)
                 .build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request()
-                .post(json(graphQLRequest));
+                .post(json(request));
 
-        GraphQLResponse graphQLResponse = response.readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response.readEntity(Response.class);
 
         assertTrue(graphQLResponse.hasData());
         assertFalse(graphQLResponse.hasError());
@@ -267,10 +265,10 @@ public class JaxrsTransportTest {
 
     @Test
     public void testTimeoutKO() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
         stubWireMock("allPeople.json");
 
-        Client client = clientBuilder
+        Client client = jaxrsClientBuilder
                 .connectTimeout(1, TimeUnit.MILLISECONDS) // Unrealistic values here!
                 .readTimeout(1, TimeUnit.MILLISECONDS)
                 .build();
@@ -279,7 +277,7 @@ public class JaxrsTransportTest {
             client
                     .target(endpoint)
                     .request()
-                    .post(json(graphQLRequest));
+                    .post(json(request));
         });
 
         client.close();
@@ -287,18 +285,18 @@ public class JaxrsTransportTest {
 
     @Test
     public void testMissingVariable() throws IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithStringVariable.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/queryWithStringVariable.graphql"));
         stubWireMock("queryWithMissingVariable.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        Response response = client
+        javax.ws.rs.core.Response response = client
                 .target(endpoint)
                 .request(MediaType.APPLICATION_JSON)
-                .post(json(graphQLRequest.toJson()));
+                .post(json(request.toJson()));
 
-        GraphQLResponse graphQLResponse = response
-                .readEntity(GraphQLResponse.class);
+        Response graphQLResponse = response
+                .readEntity(Response.class);
 
         assertFalse(graphQLResponse.hasData());
         assertTrue(graphQLResponse.hasError());
@@ -309,16 +307,16 @@ public class JaxrsTransportTest {
 
     @Test
     public void testReactiveCall() throws InterruptedException, IOException, URISyntaxException {
-        GraphQLRequest graphQLRequest = graphQLClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
+        Request request = gqlClientBuilder.newRequest(Utils.getResourceFileContent("client/allPeople.graphql"));
         stubWireMock("allPeople.json");
 
-        Client client = clientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
-        CompletionStage<GraphQLResponse> csr = client
+        CompletionStage<Response> csr = client
                 .target(endpoint)
                 .request()
                 .rx()
-                .post(json(graphQLRequest.toJson()), GraphQLResponse.class);
+                .post(json(request.toJson()), Response.class);
 
         Thread.sleep(2000);
 

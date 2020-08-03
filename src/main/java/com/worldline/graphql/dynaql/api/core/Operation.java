@@ -19,6 +19,7 @@ package com.worldline.graphql.dynaql.api.core;
 import java.util.List;
 
 public interface Operation extends Buildable {
+
     enum Type {
         QUERY,
         MUTATION,
@@ -32,6 +33,10 @@ public interface Operation extends Buildable {
     String getName();
 
     void setName(String name);
+
+    List<? extends Variable> getVariables();
+
+    void setVariables(List<? extends Variable> vars);
 
     List<? extends Field> getFields();
 

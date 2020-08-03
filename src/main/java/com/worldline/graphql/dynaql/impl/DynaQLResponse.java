@@ -15,7 +15,8 @@
  */
 package com.worldline.graphql.dynaql.impl;
 
-import com.worldline.graphql.dynaql.api.GraphQLResponse;
+import com.worldline.graphql.dynaql.api.Error;
+import com.worldline.graphql.dynaql.api.Response;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -29,10 +30,10 @@ import java.util.Map;
  *
  * @author jefrajames
  */
-public class DynaQLResponse implements GraphQLResponse {
+public class DynaQLResponse implements Response {
 
     private JsonObject data;
-    private List<GraphQLError> errors;
+    private List<Error> errors;
     private Jsonb jsonb;
 
     public void setData(JsonObject data) {
@@ -45,11 +46,11 @@ public class DynaQLResponse implements GraphQLResponse {
     }
 
     @Override
-    public List<GraphQLError> getErrors() {
+    public List<Error> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<GraphQLError> errors) {
+    public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 
@@ -104,7 +105,7 @@ public class DynaQLResponse implements GraphQLResponse {
         return "GraphQLResponse{" + "data=" + data + ", errors=" + errors + ", jsonb=" + jsonb + '}';
     }
 
-    public static class DynaQLError implements GraphQLError {
+    public static class DynaQLError implements Error {
 
         private String message;
         private List<Map<String, Integer>> locations;

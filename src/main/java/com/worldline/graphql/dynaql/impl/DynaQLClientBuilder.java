@@ -15,17 +15,17 @@
  */
 package com.worldline.graphql.dynaql.impl;
 
-import com.worldline.graphql.dynaql.api.GraphQLClientBuilder;
-import com.worldline.graphql.dynaql.api.GraphQLRequest;
+import com.worldline.graphql.dynaql.api.ClientBuilder;
+import com.worldline.graphql.dynaql.api.Request;
 
 /**
  *
  * @author jefrajames
  */
-public class DynaQLClientBuilder implements GraphQLClientBuilder {
+public class DynaQLClientBuilder implements ClientBuilder {
 
     @Override
-    public GraphQLRequest newRequest(String request) {
+    public Request newRequest(String request) {
         return new DynaQLRequest(request);
     }
     

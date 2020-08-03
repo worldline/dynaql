@@ -13,7 +13,8 @@
  */
 package com.worldline.graphql.dynaql.impl.jaxrs;
 
-import com.worldline.graphql.dynaql.api.GraphQLResponse;
+import com.worldline.graphql.dynaql.api.Error;
+import com.worldline.graphql.dynaql.api.Response;
 import com.worldline.graphql.dynaql.impl.DynaQLResponse;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ import java.util.List;
  */
 @Provider
 @Consumes("application/json")
-public class GraphQLResponseReader implements MessageBodyReader<GraphQLResponse> {
+public class GraphQLResponseReader implements MessageBodyReader<Response> {
 
     private static final int MAX_LOG_LENGTH = 128;
 
@@ -52,11 +53,11 @@ public class GraphQLResponseReader implements MessageBodyReader<GraphQLResponse>
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return type == GraphQLResponse.class;
+        return type == Response.class;
     }
 
     @Override
-    public DynaQLResponse readFrom(Class<GraphQLResponse> type, Type genericType, Annotation[] annotations,
+    public DynaQLResponse readFrom(Class<Response> type, Type genericType, Annotation[] annotations,
                                    MediaType mediaType, MultivaluedMap<String, String> httpHeaders,
                                    InputStream entityStream) throws IOException, WebApplicationException {
 
@@ -72,7 +73,7 @@ public class GraphQLResponseReader implements MessageBodyReader<GraphQLResponse>
             log.warn("GraphQL errors detected in the response");
             JsonArray rawErrors = jsonResponse.getJsonArray("errors");
             Jsonb jsonb = JsonbBuilder.create();
-            List<GraphQLResponse.GraphQLError> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
+            List<Error> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
             }.getClass().getGenericSuperclass());
             graphQLResponse.setErrors(errors);
             try {
