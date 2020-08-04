@@ -18,22 +18,22 @@ package com.worldline.graphql.dynaql.api.core;
 import java.util.List;
 
 public abstract class AbstractDocument implements Document {
-    private List<? extends Operation> operations;
+    private List<Operation> operations;
 
     /*
         Constructors
     */
-    public AbstractDocument(List<? extends Operation> operations) {
+    public AbstractDocument(List<Operation> operations) {
         this.operations = operations;
     }
 
     /*
         Getter/Setter
     */
-    public List<? extends Operation> getOperations() {
+    public List<Operation> getOperations() {
         return operations;
     }
-    public void setOperations(List<? extends Operation> operations) {
+    public void setOperations(List<Operation> operations) {
         this.operations = operations;
     }
 }

@@ -20,13 +20,13 @@ import java.util.List;
 public abstract class AbstractOperation implements Operation {
     private OperationType type;
     private String name;
-    private List<? extends Variable> variables;
-    private List<? extends Field> fields;
+    private List<Variable> variables;
+    private List<Field> fields;
 
     /*
         Constructors
     */
-    public AbstractOperation(OperationType type, String name, List<? extends Variable> vars, List<? extends Field> fields) {
+    public AbstractOperation(OperationType type, String name, List<Variable> vars, List<Field> fields) {
         this.type = type;
         this.name = name;
         this.variables = vars;
@@ -52,19 +52,19 @@ public abstract class AbstractOperation implements Operation {
         this.name = name;
     }
 
-    public List<? extends Variable> getVariables() {
+    public List<Variable> getVariables() {
         return variables;
     }
 
-    public void setVariables(List<? extends Variable> vars) {
+    public void setVariables(List<Variable> vars) {
         this.variables = vars;
     }
 
-    public List<? extends Field> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(List<? extends Field> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 }

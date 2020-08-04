@@ -4,13 +4,13 @@ import java.util.List;
 
 public abstract class AbstractField implements Field {
     private String name;
-    private List<? extends Argument> arguments;
-    private List<? extends Field> fields;
+    private List<Argument> arguments;
+    private List<Field> fields;
 
     /*
         Constructors
     */
-    public AbstractField(String name, List<? extends Argument> args, List<? extends Field> fields) {
+    public AbstractField(String name, List<Argument> args, List<Field> fields) {
         this.name = name;
         this.arguments = args;
         this.fields = fields;
@@ -27,19 +27,19 @@ public abstract class AbstractField implements Field {
         this.name = name;
     }
 
-    public List<? extends Argument> getArguments() {
+    public List<Argument> getArguments() {
         return arguments;
     }
 
-    public void setArguments(List<? extends Argument> arguments) {
+    public void setArguments(List<Argument> arguments) {
         this.arguments = arguments;
     }
 
-    public List<? extends Field> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(List<? extends Field> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 }

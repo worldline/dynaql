@@ -61,11 +61,11 @@ public interface Field extends Buildable {
 
     void setName(String name);
 
-    List<? extends Argument> getArguments();
+    List<Argument> getArguments();
 
-    void setArguments(List<? extends Argument> arguments);
+    void setArguments(List<Argument> arguments);
 
-    List<? extends Field> getFields();
+    List<Field> getFields();
 
-    void setFields(List<? extends Field> fields);
+    void setFields(List<Field> fields);
 }

@@ -90,11 +90,11 @@ public interface Operation extends Buildable {
 
     void setName(String name);
 
-    List<? extends Variable> getVariables();
+    List<Variable> getVariables();
 
-    void setVariables(List<? extends Variable> vars);
+    void setVariables(List<Variable> vars);
 
-    List<? extends Field> getFields();
+    List<Field> getFields();
 
-    void setFields(List<? extends Field> fields);
+    void setFields(List<Field> fields);
 }

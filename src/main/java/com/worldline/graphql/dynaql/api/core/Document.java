@@ -32,6 +32,6 @@ public interface Document extends Buildable {
     /*
         Getter/Setter
     */
-    List<? extends Operation> getOperations();
-    void setOperations(List<? extends Operation> operations);
+    List<Operation> getOperations();
+    void setOperations(List<Operation> operations);
 }
