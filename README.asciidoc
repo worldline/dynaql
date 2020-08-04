@@ -750,7 +750,7 @@ if (graphQLResponse.hasData())
 
 Data can be obtained in 2 ways:
 
-* **as a generic JsonObject**: using the getData method, it is the responsibility of the caller to turn this JsonObject into application objects.
+* *as a generic JsonObject*: using the getData method, it is the responsibility of the caller to turn this JsonObject into application objects.
 * *as an application object* (or a list of them): using the getObject (or getList) method. In that case, it is necessary to provide the expected data rootfield to be retrieved.
 
 For instance, with a UserProfile application class:
