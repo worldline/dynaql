@@ -1,117 +1,79 @@
 package com.worldline.graphql.dynaql.impl.core;
 
+import com.worldline.graphql.dynaql.api.core.AbstractVariable;
 import com.worldline.graphql.dynaql.api.core.ScalarType;
 import com.worldline.graphql.dynaql.api.core.Variable;
 import com.worldline.graphql.dynaql.api.core.VariableType;
 
-import java.util.List;
-
 import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
-import static java.util.Arrays.asList;
 
-public class DynaQLVariable implements Variable {
-    private String name;
-    private DynaQLVariableType type;
-    private Object defaultValue;
+public class DynaQLVariable extends AbstractVariable {
 
     /*
-     Static factory methods
-     */
-    @SafeVarargs
-    public static List<DynaQLVariable> vars(DynaQLVariable... vars) {
-        return asList(vars);
-    }
-
+        Static factory methods
+    */
     // (name, scalarType)
-    public static DynaQLVariable var(String name, ScalarType scalarType) {
-        return new DynaQLVariable(name, scalarType.toString(), null);
+    public static Variable var(String name, ScalarType scalarType) {
+        return new DynaQLVariable(name, scalarType, null);
     }
 
     // (name, scalarType, defaultValue)
-    public static DynaQLVariable var(String name, ScalarType scalarType, Object defaultValue) {
-        return new DynaQLVariable(name, scalarType.toString(), defaultValue);
+    public static Variable var(String name, ScalarType scalarType, Object defaultValue) {
+        return new DynaQLVariable(name, scalarType, defaultValue);
     }
 
     // (name, objectType)
-    public static DynaQLVariable var(String name, String objectType) {
+    public static Variable var(String name, String objectType) {
         return new DynaQLVariable(name, objectType, null);
     }
 
     // (name, objectType, defaultValue)
-    public static DynaQLVariable var(String name, String objectType, Object defaultValue) {
+    public static Variable var(String name, String objectType, Object defaultValue) {
         return new DynaQLVariable(name, objectType, defaultValue);
     }
 
-    // (name, VariableType)
-    public static DynaQLVariable var(String name, DynaQLVariableType type) {
+    // (name, variableType)
+    public static Variable var(String name, VariableType type) {
         return new DynaQLVariable(name, type, null);
     }
 
-    // (name, VariableType, defaultValue)
-    public static DynaQLVariable var(String name, DynaQLVariableType type, Object defaultValue) {
+    // (name, variableType, defaultValue)
+    public static Variable var(String name, VariableType type, Object defaultValue) {
         return new DynaQLVariable(name, type, defaultValue);
     }
 
     /*
-     Constructors
-     */
+        Constructors
+    */
+    public DynaQLVariable(String name, VariableType type, Object defaultValue) {
+        super(name, type, defaultValue);
+    }
+
+    public DynaQLVariable(String name, ScalarType scalarType, Object defaultValue) {
+        super(name, new DynaQLVariableType(scalarType.toString(), false, null), defaultValue);
+    }
+
     public DynaQLVariable(String name, String typeName, Object defaultValue) {
-        this.name = name;
-        DynaQLVariableType type = new DynaQLVariableType(typeName, false, null);
-        this.type = type;
-        this.defaultValue = defaultValue;
+        super(name, new DynaQLVariableType(typeName, false, null), defaultValue);
     }
 
-    public DynaQLVariable(String name, DynaQLVariableType type, Object defaultValue) {
-        this.name = name;
-        this.type = type;
-        this.defaultValue = defaultValue;
-    }
-
+    /*
+        Impl
+     */
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();
 
         builder.append("$");
-        builder.append(name);
+        builder.append(this.getName());
         builder.append(":");
-        builder.append(type.build());
+        builder.append(this.getType().build());
 
-        if(defaultValue != null) {
+        if(this.getDefaultValue() != null) {
             builder.append("=");
-            builder.append(format(defaultValue));
+            builder.append(format(this.getDefaultValue()));
         }
 
         return builder.toString();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public DynaQLVariableType getType() {
-        return type;
-    }
-
-    @Override
-    public void setType(VariableType type) {
-        this.type = (DynaQLVariableType) type;
-    }
-
-    @Override
-    public Object getDefaultValue() {
-        return defaultValue;
-    }
-
-    @Override
-    public void setDefaultValue(Object value) {
-        this.defaultValue = defaultValue;
     }
 }

@@ -1,65 +1,47 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 
+import com.worldline.graphql.dynaql.api.core.AbstractInputObjectField;
 import com.worldline.graphql.dynaql.api.core.InputObjectField;
+import com.worldline.graphql.dynaql.api.core.Variable;
 
 import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
 
-public class DynaQLInputObjectField implements InputObjectField {
-    private String name;
-    private Object value;
+public class DynaQLInputObjectField extends AbstractInputObjectField {
 
     /*
-    Static factory methods
-     */
+        Static factory methods
+    */
     // (name, value)
-    public static DynaQLInputObjectField prop(String name, Object value) {
+    public static InputObjectField prop(String name, Object value) {
         return new DynaQLInputObjectField(name, value);
     }
 
     // (name, variable)
-    public static DynaQLInputObjectField prop(String name, DynaQLVariable var) {
+    public static InputObjectField prop(String name, Variable var) {
         return new DynaQLInputObjectField(name, var);
     }
 
 
     /*
-    Constructors
-     */
+        Constructors
+    */
     public DynaQLInputObjectField(String name, Object value) {
-        this.name = name;
-        this.value = value;
+        super(name, value);
     }
 
-    public DynaQLInputObjectField(String name, DynaQLVariable var) {
-        this.name = name;
-        this.value = var;
+    public DynaQLInputObjectField(String name, Variable var) {
+        super(name, var);
     }
 
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(this.name);
+        builder.append(this.getName());
         builder.append(":");
-        builder.append(format(this.value));
+        builder.append(format(this.getValue()));
 
         return builder.toString();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
     }
 }

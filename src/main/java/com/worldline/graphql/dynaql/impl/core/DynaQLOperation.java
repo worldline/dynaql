@@ -1,7 +1,9 @@
 package com.worldline.graphql.dynaql.impl.core;
 
+import com.worldline.graphql.dynaql.api.core.AbstractOperation;
 import com.worldline.graphql.dynaql.api.core.Field;
 import com.worldline.graphql.dynaql.api.core.Operation;
+import com.worldline.graphql.dynaql.api.core.OperationType;
 import com.worldline.graphql.dynaql.api.core.Variable;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 
@@ -10,84 +12,72 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 
-public class DynaQLOperation implements Operation {
-    private Type type;
-    private String name;
-    private List<DynaQLVariable> variables;
-    private List<DynaQLField> fields;
+public class DynaQLOperation extends AbstractOperation {
 
     /*
-    Static factory methods
-     */
-    @SafeVarargs
-    public static List<DynaQLOperation> operations(DynaQLOperation... operations) {
-        return asList(operations);
-    }
-
+        Static factory methods
+    */
     // (fields)
     @SafeVarargs
-    public static DynaQLOperation operation(DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, "", emptyList(), asList(fields));
+    public static Operation operation(Field... fields) {
+        return new DynaQLOperation(OperationType.QUERY, "", emptyList(), asList(fields));
     }
 
     // (vars, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(List<DynaQLVariable> vars, DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, "", vars, asList(fields));
+    public static Operation operation(List<Variable> vars, DynaQLField... fields) {
+        return new DynaQLOperation(OperationType.QUERY, "", vars, asList(fields));
     }
 
     // (type, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(Type type, DynaQLField... fields) {
+    public static Operation operation(OperationType type, Field... fields) {
         return new DynaQLOperation(type, "", emptyList(), asList(fields));
     }
 
     // (type, vars, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(Type type, List<DynaQLVariable> vars, DynaQLField... fields) {
+    public static Operation operation(OperationType type, List<Variable> vars, Field... fields) {
         return new DynaQLOperation(type, "", vars, asList(fields));
     }
 
     // (name, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(String name, DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, name, emptyList(), asList(fields));
+    public static Operation operation(String name, Field... fields) {
+        return new DynaQLOperation(OperationType.QUERY, name, emptyList(), asList(fields));
     }
 
     // (type, name, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(Type type, String name, DynaQLField... fields) {
+    public static Operation operation(OperationType type, String name, Field... fields) {
         return new DynaQLOperation(type, name, emptyList(), asList(fields));
     }
 
     // (name, vars, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(String name, List<DynaQLVariable> vars, DynaQLField... fields) {
-        return new DynaQLOperation(Type.QUERY, name, vars, asList(fields));
+    public static Operation operation(String name, List<Variable> vars, Field... fields) {
+        return new DynaQLOperation(OperationType.QUERY, name, vars, asList(fields));
     }
 
     // (type, name, vars, fields)
     @SafeVarargs
-    public static DynaQLOperation operation(Type type, String name, List<DynaQLVariable> vars, DynaQLField... fields) {
+    public static Operation operation(OperationType type, String name, List<Variable> vars, Field... fields) {
         return new DynaQLOperation(type, name, vars, asList(fields));
     }
 
 
     /*
-    Constructors
+        Constructors
      */
-    public DynaQLOperation(Type type, String name, List<DynaQLVariable> vars, List<DynaQLField> fields) {
-        this.type = type;
-        this.name = name;
-        this.variables = vars;
-        this.fields = fields;
+    public DynaQLOperation(OperationType type, String name, List<Variable> vars, List<Field> fields) {
+        super(type, name, vars, fields);
     }
 
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();
 
-        switch (type) {
+        switch (this.getType()) {
             case QUERY:
                 builder.append("query");
                 break;
@@ -102,13 +92,13 @@ public class DynaQLOperation implements Operation {
         }
 
         builder.append(" ");
-        builder.append(this.name);
+        builder.append(this.getName());
 
-        if (!this.variables.isEmpty()) {
+        if (!this.getVariables().isEmpty()) {
             _buildVariables(builder);
         }
 
-        if (!this.fields.isEmpty()) {
+        if (!this.getFields().isEmpty()) {
             _buildFields(builder);
         } else {
             throw new BuilderException("An operation must have at least one root field.");
@@ -121,7 +111,7 @@ public class DynaQLOperation implements Operation {
     private void _buildVariables(StringBuilder builder) {
         builder.append("(");
 
-        DynaQLVariable[] vars = this.variables.toArray(new DynaQLVariable[0]);
+        DynaQLVariable[] vars = this.getVariables().toArray(new DynaQLVariable[0]);
         for (int i = 0; i < vars.length; i++) {
             DynaQLVariable variable = vars[i];
             builder.append(variable.build());
@@ -136,7 +126,7 @@ public class DynaQLOperation implements Operation {
     private void _buildFields(StringBuilder builder) {
         builder.append("{");
 
-        DynaQLField[] rootFields = this.fields.toArray(new DynaQLField[0]);
+        DynaQLField[] rootFields = this.getFields().toArray(new DynaQLField[0]);
         for (int i = 0; i < rootFields.length; i++) {
             DynaQLField rootField = rootFields[i];
             builder.append(rootField.build());
@@ -146,37 +136,5 @@ public class DynaQLOperation implements Operation {
         }
 
         builder.append("}");
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<DynaQLVariable> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(List<? extends Variable> vars) {
-        this.variables = (List<DynaQLVariable>) vars;
-    }
-
-    public List<DynaQLField> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<? extends Field> fields) {
-        this.fields = (List<DynaQLField>) fields;
     }
 }
