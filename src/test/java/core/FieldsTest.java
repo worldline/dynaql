@@ -1,7 +1,7 @@
 package core;
 
-import com.worldline.graphql.dynaql.api.core.Operation;
-import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
+import com.worldline.graphql.dynaql.api.core.Document;
+import com.worldline.graphql.dynaql.api.core.OperationType;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
 import helper.Utils;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static com.worldline.graphql.dynaql.api.core.Argument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
@@ -22,8 +22,8 @@ public class FieldsTest {
     public void fieldTest() throws IOException, URISyntaxException, BuilderException {
         String expectedRequest = Utils.getResourceFileContent("core/fields.graphql");
 
-        DynaQLDocument document = document(
-                operation(Operation.Type.QUERY,
+        Document document = document(
+                operation(OperationType.QUERY,
                         field("noArgNoSubField"),
                         field("noArgWithSubField",
                                 field("bool"),

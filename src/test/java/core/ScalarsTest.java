@@ -1,7 +1,7 @@
 package core;
 
-import com.worldline.graphql.dynaql.api.core.Operation;
-import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
+import com.worldline.graphql.dynaql.api.core.Document;
+import com.worldline.graphql.dynaql.api.core.OperationType;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
 import helper.AssertGraphQL;
@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 
+import static com.worldline.graphql.dynaql.api.core.Argument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField.prop;
@@ -26,8 +26,8 @@ public class ScalarsTest {
     public void scalars() throws IOException, URISyntaxException, BuilderException {
         String expectedRequest = Utils.getResourceFileContent("core/scalars.graphql");
 
-        DynaQLDocument document = document(
-                operation(Operation.Type.MUTATION, "scalarHolderMutation",
+        Document document = document(
+                operation(OperationType.MUTATION, "scalarHolderMutation",
                         field("scalarHolder",
                                 args(
                                         arg("scalarHolder", DynaQLInputObject.inputObject(

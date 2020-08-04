@@ -1,10 +1,7 @@
 package core;
 
-import com.worldline.graphql.dynaql.api.core.Operation;
-import com.worldline.graphql.dynaql.impl.core.DynaQLDocument;
-import com.worldline.graphql.dynaql.impl.core.DynaQLField;
-import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
-import com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField;
+import com.worldline.graphql.dynaql.api.core.Document;
+import com.worldline.graphql.dynaql.api.core.OperationType;
 import helper.AssertGraphQL;
 import helper.Utils;
 import org.junit.jupiter.api.Test;
@@ -14,10 +11,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 
+import static com.worldline.graphql.dynaql.api.core.Argument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
-import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.inputObject;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField.prop;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 
 
@@ -27,68 +26,68 @@ public class ArraysTest {
     public void arrays() throws IOException, URISyntaxException {
         String expectedRequest = Utils.getResourceFileContent("core/arrays.graphql");
 
-        DynaQLDocument document = document(
-                operation(Operation.Type.QUERY, "arrayHolderQuery",
+        Document document = document(
+                operation(OperationType.QUERY, "arrayHolderQuery",
                         field("arrayHolder",
                                 args(
-                                        arg("arrayHolder", DynaQLInputObject.inputObject(
-                                                DynaQLInputObjectField.prop("boolPrimitiveArray", new boolean[]{true, false, true}),
-                                                DynaQLInputObjectField.prop("boolObjectArray", new Boolean[]{true, false, true}),
+                                        arg("arrayHolder", inputObject(
+                                                prop("boolPrimitiveArray", new boolean[]{true, false, true}),
+                                                prop("boolObjectArray", new Boolean[]{true, false, true}),
 
-                                                DynaQLInputObjectField.prop("bytePrimitiveArray", new byte[]{0, 2, 3}),
-                                                DynaQLInputObjectField.prop("byteObjectArray", new Byte[]{0, 2, 3}),
+                                                prop("bytePrimitiveArray", new byte[]{0, 2, 3}),
+                                                prop("byteObjectArray", new Byte[]{0, 2, 3}),
 
-                                                DynaQLInputObjectField.prop("shortPrimitiveArray", new short[]{78, 789, 645}),
-                                                DynaQLInputObjectField.prop("shortObjectArray", new Short[]{78, 789, 645}),
+                                                prop("shortPrimitiveArray", new short[]{78, 789, 645}),
+                                                prop("shortObjectArray", new Short[]{78, 789, 645}),
 
-                                                DynaQLInputObjectField.prop("intPrimitiveArray", new int[]{78, 65, 12354}),
-                                                DynaQLInputObjectField.prop("intObjectArray", new Integer[]{78, 65, 12354}),
+                                                prop("intPrimitiveArray", new int[]{78, 65, 12354}),
+                                                prop("intObjectArray", new Integer[]{78, 65, 12354}),
 
-                                                DynaQLInputObjectField.prop("longPrimitiveArray", new long[]{789L, 947894L, 1874448L}),
-                                                DynaQLInputObjectField.prop("longObjectArray", new Long[]{789L, 947894L, 1874448L}),
+                                                prop("longPrimitiveArray", new long[]{789L, 947894L, 1874448L}),
+                                                prop("longObjectArray", new Long[]{789L, 947894L, 1874448L}),
 
-                                                DynaQLInputObjectField.prop("floatPrimitiveArray", new float[]{1567.654f, 8765f, 123789456.1851f}),
-                                                DynaQLInputObjectField.prop("floatObjectArray", new Float[]{1567.654f, 8765f, 123789456.1851f}),
+                                                prop("floatPrimitiveArray", new float[]{1567.654f, 8765f, 123789456.1851f}),
+                                                prop("floatObjectArray", new Float[]{1567.654f, 8765f, 123789456.1851f}),
 
-                                                DynaQLInputObjectField.prop("doublePrimitiveArray", new double[]{789.3242d, 1815d, 98765421.654897d}),
-                                                DynaQLInputObjectField.prop("doubleObjectArray", new Double[]{789.3242d, 1815d, 98765421.654897d}),
+                                                prop("doublePrimitiveArray", new double[]{789.3242d, 1815d, 98765421.654897d}),
+                                                prop("doubleObjectArray", new Double[]{789.3242d, 1815d, 98765421.654897d}),
 
-                                                DynaQLInputObjectField.prop("bigIntegerArray", new BigInteger[]{BigInteger.ZERO, BigInteger.ONE, BigInteger.TEN}),
-                                                DynaQLInputObjectField.prop("bigDecimalArray", new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN}),
+                                                prop("bigIntegerArray", new BigInteger[]{BigInteger.ZERO, BigInteger.ONE, BigInteger.TEN}),
+                                                prop("bigDecimalArray", new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN}),
 
-                                                DynaQLInputObjectField.prop("charPrimitiveArray", new char[]{'f', 'o', 'o'}),
-                                                DynaQLInputObjectField.prop("charObjectArray", new Character[]{'f', 'o', 'o'}),
+                                                prop("charPrimitiveArray", new char[]{'f', 'o', 'o'}),
+                                                prop("charObjectArray", new Character[]{'f', 'o', 'o'}),
 
-                                                DynaQLInputObjectField.prop("stringArray", new String[]{"foo", "bar", "baz"})
+                                                prop("stringArray", new String[]{"foo", "bar", "baz"})
                                         ))),
-                                DynaQLField.field("boolPrimitiveArray"),
-                                DynaQLField.field("boolObjectArray"),
+                                field("boolPrimitiveArray"),
+                                field("boolObjectArray"),
 
-                                DynaQLField.field("bytePrimitiveArray"),
-                                DynaQLField.field("byteObjectArray"),
+                                field("bytePrimitiveArray"),
+                                field("byteObjectArray"),
 
-                                DynaQLField.field("shortPrimitiveArray"),
-                                DynaQLField.field("shortObjectArray"),
+                                field("shortPrimitiveArray"),
+                                field("shortObjectArray"),
 
-                                DynaQLField.field("intPrimitiveArray"),
-                                DynaQLField.field("intObjectArray"),
+                                field("intPrimitiveArray"),
+                                field("intObjectArray"),
 
-                                DynaQLField.field("longPrimitiveArray"),
-                                DynaQLField.field("longObjectArray"),
+                                field("longPrimitiveArray"),
+                                field("longObjectArray"),
 
-                                DynaQLField.field("floatPrimitiveArray"),
-                                DynaQLField.field("floatObjectArray"),
+                                field("floatPrimitiveArray"),
+                                field("floatObjectArray"),
 
-                                DynaQLField.field("doublePrimitiveArray"),
-                                DynaQLField.field("doubleObjectArray"),
+                                field("doublePrimitiveArray"),
+                                field("doubleObjectArray"),
 
-                                DynaQLField.field("bigIntegerArray"),
-                                DynaQLField.field("bigDecimalArray"),
+                                field("bigIntegerArray"),
+                                field("bigDecimalArray"),
 
-                                DynaQLField.field("charPrimitiveArray"),
-                                DynaQLField.field("charObjectArray"),
+                                field("charPrimitiveArray"),
+                                field("charObjectArray"),
 
-                                DynaQLField.field("stringArray")
+                                field("stringArray")
                         )
                 )
         );
