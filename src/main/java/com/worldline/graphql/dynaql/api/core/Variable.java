@@ -13,11 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.worldline.graphql.dynaql.api.core;
+
+import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
+
+import java.util.List;
+
+import static java.util.Arrays.asList;
 
 public interface Variable extends Buildable {
 
+    /*
+        Static factory methods
+    */
+    @SafeVarargs
+    static List<Variable> vars(Variable... vars) {
+        return asList(vars);
+    }
+
+    // (name, scalarType)
+    static Variable var(String name, ScalarType scalarType) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, scalarType, defaultValue)
+    static Variable var(String name, ScalarType scalarType, Object defaultValue) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, objectType)
+    static Variable var(String name, String objectType) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, objectType, defaultValue)
+    static Variable var(String name, String objectType, Object defaultValue) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, VariableType)
+    static Variable var(String name, VariableType type) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, VariableType, defaultValue)
+    static Variable var(String name, VariableType type, Object defaultValue) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    /*
+        Getter/Setter
+    */
     String getName();
 
     void setName(String name);

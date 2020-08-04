@@ -13,13 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.worldline.graphql.dynaql.api.core;
+
+import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
 
 import java.util.List;
 
 public interface InputObject extends Buildable {
 
-    List<? extends InputObjectField> getInputObjectFields();
-    void setInputObjectFields(List<? extends InputObjectField> inputObjectFields);
+    /*
+        Static factory methods
+    */
+    @SafeVarargs
+    static InputObject inputObject(InputObjectField... inputObjectFields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    /*
+        Getter/Setter
+     */
+    List<InputObjectField> getInputObjectFields();
+    void setInputObjectFields(List<InputObjectField> inputObjectFields);
 }

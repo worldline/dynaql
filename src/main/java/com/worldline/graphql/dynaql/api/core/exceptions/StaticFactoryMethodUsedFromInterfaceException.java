@@ -13,23 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.worldline.graphql.dynaql.api.core;
+package com.worldline.graphql.dynaql.api.core.exceptions;
 
-import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
+public class StaticFactoryMethodUsedFromInterfaceException extends RuntimeException {
 
-public interface Enum {
-
-    /*
-        Static factory methods
-    */
-    static Enum gqlEnum(String value) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    public StaticFactoryMethodUsedFromInterfaceException(StackTraceElement[] stackTrace) {
+        super("Static factory method `" + stackTrace[0].getMethodName() + "(...)` from `"
+                + stackTrace[0].getClassName() + "` interface cannot be called directly." +
+                " It must be overridden in an implementing class and imported from there.");
     }
-
-    /*
-        Getter/Setter
-    */
-    String getValue();
-
-    void setValue(String value);
 }

@@ -13,12 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.worldline.graphql.dynaql.api.core;
+
+import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
 
 import java.util.List;
 
 public interface Document extends Buildable {
+
+    /*
+        Static factory methods
+     */
+    @SafeVarargs
+    static Document document(Operation... operations) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    /*
+        Getter/Setter
+    */
     List<? extends Operation> getOperations();
     void setOperations(List<? extends Operation> operations);
 }

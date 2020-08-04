@@ -15,21 +15,8 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
-import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
-
-public interface Enum {
-
-    /*
-        Static factory methods
-    */
-    static Enum gqlEnum(String value) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    /*
-        Getter/Setter
-    */
-    String getValue();
-
-    void setValue(String value);
+public enum OperationType {
+    QUERY,
+    MUTATION,
+    SUBSCRIPTION
 }

@@ -13,22 +13,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.worldline.graphql.dynaql.api.core;
+
+import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
 
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public interface Operation extends Buildable {
 
-    enum Type {
-        QUERY,
-        MUTATION,
-        SUBSCRIPTION
+    /*
+        Static factory methods
+    */
+    @SafeVarargs
+    static List<Operation> operations(Operation... operations) {
+        return asList(operations);
     }
 
-    Type getType();
+    // (fields)
+    @SafeVarargs
+    static Operation operation(Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
 
-    void setType(Type type);
+    // (vars, fields)
+    @SafeVarargs
+    static Operation operation(List<Variable> vars, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (type, fields)
+    @SafeVarargs
+    static Operation operation(OperationType type, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (type, vars, fields)
+    @SafeVarargs
+    static Operation operation(OperationType type, List<Variable> vars, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, fields)
+    @SafeVarargs
+    static Operation operation(String name, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (type, name, fields)
+    @SafeVarargs
+    static Operation operation(OperationType type, String name, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (name, vars, fields)
+    @SafeVarargs
+    static Operation operation(String name, List<Variable> vars, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    // (type, name, vars, fields)
+    @SafeVarargs
+    static Operation operation(OperationType type, String name, List<Variable> vars, Field... fields) {
+        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
+    }
+
+    /*
+        Getter/Setter
+    */
+    OperationType getType();
+
+    void setType(OperationType type);
 
     String getName();
 
