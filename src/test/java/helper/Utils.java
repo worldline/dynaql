@@ -28,4 +28,8 @@ public class Utils {
             throw (e);
         }
     }
+
+    private Utils() {
+        // HideUtilityClassConstructor
+    }
 }

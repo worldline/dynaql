@@ -3,7 +3,7 @@ package core;
 import com.worldline.graphql.dynaql.api.core.Document;
 import com.worldline.graphql.dynaql.api.core.InputObject;
 import com.worldline.graphql.dynaql.api.core.OperationType;
-import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
 import helper.AssertGraphQL;
 import helper.Utils;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
 public class NestedObjectsTest {
 
     @Test
-    public void nestedObjects() throws IOException, URISyntaxException, BuilderException {
+    public void nestedObjects() throws IOException, URISyntaxException, BuildException {
         String expectedRequest = Utils.getResourceFileContent("core/nestedObjects.graphql");
 
         InputObject baseObject_0 = inputObject(

@@ -3,7 +3,7 @@ package core;
 import com.worldline.graphql.dynaql.api.core.Document;
 import com.worldline.graphql.dynaql.api.core.OperationType;
 import com.worldline.graphql.dynaql.api.core.Variable;
-import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
 import helper.AssertGraphQL;
 import helper.Utils;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ import static com.worldline.graphql.dynaql.impl.core.DynaQLVariableType.nonNull;
 public class VariablesTest {
 
     @Test
-    public void variablesDefaultValueTest() throws IOException, URISyntaxException, BuilderException {
+    public void variablesDefaultValueTest() throws IOException, URISyntaxException, BuildException {
         String expectedRequest = Utils.getResourceFileContent("core/variablesDefaultValue.graphql");
 
         Variable varName = var("name", GQL_STRING, "Lee Byron");
@@ -49,7 +49,7 @@ public class VariablesTest {
     }
 
     @Test
-    public void variablesFlatTest() throws IOException, URISyntaxException, BuilderException {
+    public void variablesFlatTest() throws IOException, URISyntaxException, BuildException {
         String expectedRequest = Utils.getResourceFileContent("core/variablesFlat.graphql");
 
         Variable varBool = var("varBool", nonNull(GQL_BOOL));
@@ -81,7 +81,7 @@ public class VariablesTest {
     }
 
     @Test
-    public void variablesInInputObjectTest() throws IOException, URISyntaxException, BuilderException {
+    public void variablesInInputObjectTest() throws IOException, URISyntaxException, BuildException {
         String expectedRequest = Utils.getResourceFileContent("core/variablesInInputObject.graphql");
 
         Variable varBool = var("varBool", nonNull(GQL_BOOL));
@@ -121,7 +121,7 @@ public class VariablesTest {
     }
 
     @Test
-    public void variablesArraysTest() throws IOException, URISyntaxException, BuilderException {
+    public void variablesArraysTest() throws IOException, URISyntaxException, BuildException {
         String expectedRequest = Utils.getResourceFileContent("core/variablesArrays.graphql");
 
         Variable varInt_1 = var("varInt_1", list(GQL_INT));

@@ -31,4 +31,8 @@ public class WireMockHelper {
                 .port(11080)
                 .withRootDirectory("src/test/resources/client"));
     }
+
+    private WireMockHelper() {
+        // HideUtilityClassConstructor
+    }
 }

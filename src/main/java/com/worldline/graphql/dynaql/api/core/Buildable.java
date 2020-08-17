@@ -15,6 +15,8 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
+import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
+
 public interface Buildable {
-    String build();
+    String build() throws BuildException;
 }

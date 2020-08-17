@@ -24,4 +24,8 @@ public class AssertGraphQL {
                 .replaceAll(System.getProperty("line.separator"), "")
                 .replaceAll(",", "");
     }
+
+    private AssertGraphQL() {
+        // HideUtilityClassConstructor
+    }
 }

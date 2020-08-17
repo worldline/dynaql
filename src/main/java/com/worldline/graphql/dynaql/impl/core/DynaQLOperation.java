@@ -5,7 +5,7 @@ import com.worldline.graphql.dynaql.api.core.Field;
 import com.worldline.graphql.dynaql.api.core.Operation;
 import com.worldline.graphql.dynaql.api.core.OperationType;
 import com.worldline.graphql.dynaql.api.core.Variable;
-import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
 
 import java.util.List;
 
@@ -93,7 +93,7 @@ public class DynaQLOperation extends AbstractOperation {
                 builder.append("subscription");
                 break;
             default:
-                throw new BuilderException("Operation type must be one of QUERY, MUTATION or SUBSCRIPTION");
+                throw new BuildException("Operation type must be one of QUERY, MUTATION or SUBSCRIPTION");
         }
 
         builder.append(" ");
@@ -106,9 +106,8 @@ public class DynaQLOperation extends AbstractOperation {
         if (!this.getFields().isEmpty()) {
             _buildFields(builder);
         } else {
-            throw new BuilderException("An operation must have at least one root field.");
+            throw new BuildException("An operation must have at least one root field.");
         }
-
 
         return builder.toString();
     }

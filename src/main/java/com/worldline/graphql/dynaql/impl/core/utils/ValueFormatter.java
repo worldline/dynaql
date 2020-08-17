@@ -3,14 +3,14 @@ package com.worldline.graphql.dynaql.impl.core.utils;
 import com.worldline.graphql.dynaql.impl.core.DynaQLEnum;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.DynaQLVariable;
-import com.worldline.graphql.dynaql.impl.core.exceptions.BuilderException;
+import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 
 public class ValueFormatter {
 
-    public static String format(Object value) throws BuilderException {
+    public static String format(Object value) throws BuildException {
         StringBuilder builder = new StringBuilder();
 
         if (value == null) {
@@ -39,7 +39,7 @@ public class ValueFormatter {
         return builder.toString();
     }
 
-    private static void _appendArray(StringBuilder builder, Object array) throws BuilderException {
+    private static void _appendArray(StringBuilder builder, Object array) throws BuildException {
         int length = Array.getLength(array);
 
         builder.append("[");
