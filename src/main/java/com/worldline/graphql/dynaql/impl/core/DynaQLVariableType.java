@@ -19,7 +19,7 @@ public class DynaQLVariableType extends AbstractVariableType {
         return new DynaQLVariableType(name, true, null);
     }
 
-    // (varType object)
+    // (varType)
     public static VariableType nonNull(VariableType type) {
         type.setNonNull(true);
         return type;

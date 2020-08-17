@@ -17,6 +17,11 @@ public class DynaQLOperation extends AbstractOperation {
     /*
         Static factory methods
     */
+    @SafeVarargs
+    public static List<Operation> operations(Operation... operations) {
+        return asList(operations);
+    }
+
     // (fields)
     @SafeVarargs
     public static Operation operation(Field... fields) {

@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import static com.worldline.graphql.dynaql.api.core.Argument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.inputObject;

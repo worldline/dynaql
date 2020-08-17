@@ -14,6 +14,11 @@ public class DynaQLField extends AbstractField {
     /*
         Static factory methods
     */
+    @SafeVarargs
+    public static List<Field> fields(Field... fields) {
+        return asList(fields);
+    }
+
     // (name)
     public static Field field(String name) {
         return new DynaQLField(name, emptyList(), emptyList());

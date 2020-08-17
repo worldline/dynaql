@@ -15,41 +15,7 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
-import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
-
 public interface VariableType extends Buildable {
-    /*
-        Static factory methods
-    */
-    // (scalarType)
-    static VariableType nonNull(ScalarType scalarType) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (objectType)
-    static VariableType nonNull(String name) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (varType object)
-    static VariableType nonNull(VariableType type) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (scalarType)
-    static VariableType list(ScalarType scalarType) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (typeName)
-    static VariableType list(String name) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (variableType object)
-    static VariableType list(VariableType childVarType) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
 
     /*
         Getter/Setter

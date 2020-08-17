@@ -5,13 +5,21 @@ import com.worldline.graphql.dynaql.api.core.ScalarType;
 import com.worldline.graphql.dynaql.api.core.Variable;
 import com.worldline.graphql.dynaql.api.core.VariableType;
 
+import java.util.List;
+
 import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
+import static java.util.Arrays.asList;
 
 public class DynaQLVariable extends AbstractVariable {
 
     /*
         Static factory methods
     */
+    @SafeVarargs
+    public static List<Variable> vars(Variable... vars) {
+        return asList(vars);
+    }
+
     // (name, scalarType)
     public static Variable var(String name, ScalarType scalarType) {
         return new DynaQLVariable(name, scalarType, null);

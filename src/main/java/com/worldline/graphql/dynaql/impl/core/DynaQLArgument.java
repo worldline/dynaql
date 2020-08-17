@@ -5,13 +5,21 @@ import com.worldline.graphql.dynaql.api.core.Argument;
 import com.worldline.graphql.dynaql.api.core.InputObject;
 import com.worldline.graphql.dynaql.api.core.Variable;
 
+import java.util.List;
+
 import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
+import static java.util.Arrays.asList;
 
 public class DynaQLArgument extends AbstractArgument {
 
     /*
         Static factory methods
     */
+    @SafeVarargs
+    public static List<Argument> args(Argument... args) {
+        return asList(args);
+    }
+
     // (name, raw value)
     public static Argument arg(String name, Object value) { return new DynaQLArgument(name, value); }
 

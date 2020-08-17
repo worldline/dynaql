@@ -15,44 +15,9 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
-import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
-
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 public interface Field extends Buildable {
-
-    /*
-        Static factory methods
-    */
-    @SafeVarargs
-    static List<Field> fields(Field... fields) {
-        return asList(fields);
-    }
-
-    // (name)
-    static Field field(String name) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (name, subfields)
-    @SafeVarargs
-    static Field field(String name, Field... fields) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (name, args)
-    @SafeVarargs
-    static Field field(String name, Argument... args) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
-
-    // (name, args, subfields)
-    @SafeVarargs
-    static Field field(String name, List<Argument> args, Field... fields) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
 
     /*
         Getter/Setter

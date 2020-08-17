@@ -15,19 +15,9 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
-import com.worldline.graphql.dynaql.api.core.exceptions.StaticFactoryMethodUsedFromInterfaceException;
-
 import java.util.List;
 
 public interface InputObject extends Buildable {
-
-    /*
-        Static factory methods
-    */
-    @SafeVarargs
-    static InputObject inputObject(InputObjectField... inputObjectFields) {
-        throw new StaticFactoryMethodUsedFromInterfaceException(new Throwable().getStackTrace());
-    }
 
     /*
         Getter/Setter

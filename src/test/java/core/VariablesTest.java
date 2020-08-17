@@ -11,20 +11,20 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static com.worldline.graphql.dynaql.api.core.Argument.args;
 import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_BOOL;
 import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_FLOAT;
 import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_ID;
 import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_INT;
 import static com.worldline.graphql.dynaql.api.core.ScalarType.GQL_STRING;
-import static com.worldline.graphql.dynaql.api.core.Variable.vars;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.arg;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLArgument.args;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLVariable.var;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLDocument.document;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLField.field;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObject.inputObject;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLInputObjectField.prop;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLOperation.operation;
+import static com.worldline.graphql.dynaql.impl.core.DynaQLVariable.vars;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLVariableType.list;
 import static com.worldline.graphql.dynaql.impl.core.DynaQLVariableType.nonNull;
 
