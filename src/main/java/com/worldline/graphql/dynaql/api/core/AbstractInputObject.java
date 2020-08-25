@@ -1,5 +1,8 @@
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.InputObject;
+import org.eclipse.microprofile.graphql.client.core.InputObjectField;
+
 import java.util.List;
 
 public abstract class AbstractInputObject implements InputObject {
@@ -8,8 +11,7 @@ public abstract class AbstractInputObject implements InputObject {
     /*
         Constructors
     */
-    public AbstractInputObject(List<InputObjectField> inputObjectFields) {
-        this.inputObjectFields = inputObjectFields;
+    public AbstractInputObject() {
     }
 
     /*

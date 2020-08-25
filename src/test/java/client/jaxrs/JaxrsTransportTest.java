@@ -155,7 +155,7 @@ public class JaxrsTransportTest {
 
         request.addVariable("surname", "Zemlak");
 
-        Client client =jaxrsClientBuilder.build();
+        Client client = jaxrsClientBuilder.build();
 
         // Here, we directly get a GraphQLResponse typed entity
         Response response = client
@@ -324,7 +324,5 @@ public class JaxrsTransportTest {
             assertTrue(r.hasData());
             assertFalse(r.hasError());
         });
-
     }
-
 }

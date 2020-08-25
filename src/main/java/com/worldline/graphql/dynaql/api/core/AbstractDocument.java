@@ -15,6 +15,9 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Document;
+import org.eclipse.microprofile.graphql.client.core.Operation;
+
 import java.util.List;
 
 public abstract class AbstractDocument implements Document {
@@ -23,8 +26,7 @@ public abstract class AbstractDocument implements Document {
     /*
         Constructors
     */
-    public AbstractDocument(List<Operation> operations) {
-        this.operations = operations;
+    public AbstractDocument() {
     }
 
     /*

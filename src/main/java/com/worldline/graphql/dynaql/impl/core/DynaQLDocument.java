@@ -1,34 +1,11 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 import com.worldline.graphql.dynaql.api.core.AbstractDocument;
-import com.worldline.graphql.dynaql.api.core.Document;
-import com.worldline.graphql.dynaql.api.core.Operation;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
+import org.eclipse.microprofile.graphql.client.core.Operation;
 
 public class DynaQLDocument extends AbstractDocument {
-
-    /*
-        Static factory methods
-    */
-    @SafeVarargs
-    public static Document document(Operation... operations) {
-        return new DynaQLDocument(asList(operations));
-    }
-
-    /*
-        Constructors
-    */
-    public DynaQLDocument(List<Operation> operations) {
-        super(operations);
-    }
-
-    /*
-        Impl
-    */
     @Override
+    // TODO: use StringJoiner
     public String build() {
         StringBuilder builder = new StringBuilder();
 

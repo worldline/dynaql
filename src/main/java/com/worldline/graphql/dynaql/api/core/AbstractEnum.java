@@ -1,13 +1,14 @@
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Enum;
+
 public abstract class AbstractEnum implements Enum {
     private String value;
 
     /*
         Constructors
     */
-    public AbstractEnum(String value) {
-        this.value = value;
+    public AbstractEnum() {
     }
 
     /*

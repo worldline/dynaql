@@ -11,37 +11,34 @@ import java.time.LocalDate;
 public class ValueFormatter {
 
     public static String format(Object value) throws BuildException {
-        StringBuilder builder = new StringBuilder();
-
         if (value == null) {
-            builder.append("null");
+            return "null";
         } else if (value instanceof DynaQLVariable) {
             DynaQLVariable var = (DynaQLVariable) value;
-            builder.append("$" + var.getName());
+            return "$" + var.getName();
         } else if (value instanceof DynaQLInputObject) {
             DynaQLInputObject inputObject = (DynaQLInputObject) value;
-            builder.append(inputObject.build());
+            return inputObject.build();
         } else if (value instanceof DynaQLEnum) {
             DynaQLEnum gqlEnum = (DynaQLEnum) value;
-            builder.append(gqlEnum.getValue());
+            return gqlEnum.build();
         } else if (value.getClass().isArray()) {
-            _appendArray(builder, value);
+            return _processArray(value);
         } else if (value instanceof String) {
-            _appendAsQuotedString(builder, String.valueOf(value));
+            return _getAsQuotedString(String.valueOf(value));
         } else if (value instanceof Character) {
-            _appendAsQuotedString(builder, String.valueOf(value));
+            return _getAsQuotedString(String.valueOf(value));
         } else if (value instanceof LocalDate) {
-            _appendAsQuotedString(builder, String.valueOf(value));
+            return _getAsQuotedString(String.valueOf(value));
         } else {
-            builder.append(value);
+            return value.toString();
         }
-
-        return builder.toString();
     }
 
-    private static void _appendArray(StringBuilder builder, Object array) throws BuildException {
-        int length = Array.getLength(array);
+    private static String _processArray(Object array) throws BuildException {
+        StringBuilder builder = new StringBuilder();
 
+        int length = Array.getLength(array);
         builder.append("[");
         for (int i = 0; i < length; i++) {
             builder.append(format(Array.get(array, i)));
@@ -50,9 +47,13 @@ public class ValueFormatter {
             }
         }
         builder.append("]");
+
+        return builder.toString();
     }
 
-    private static void _appendAsQuotedString(StringBuilder builder, String value) {
+    private static String _getAsQuotedString(String value) {
+        StringBuilder builder = new StringBuilder();
+
         builder.append('"');
         for (char c : value.toCharArray()) {
             switch (c) {
@@ -77,5 +78,7 @@ public class ValueFormatter {
             }
         }
         builder.append('"');
+
+        return builder.toString();
     }
 }

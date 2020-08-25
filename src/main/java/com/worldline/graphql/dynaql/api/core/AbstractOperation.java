@@ -15,6 +15,11 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Field;
+import org.eclipse.microprofile.graphql.client.core.Operation;
+import org.eclipse.microprofile.graphql.client.core.OperationType;
+import org.eclipse.microprofile.graphql.client.core.Variable;
+
 import java.util.List;
 
 public abstract class AbstractOperation implements Operation {
@@ -26,11 +31,7 @@ public abstract class AbstractOperation implements Operation {
     /*
         Constructors
     */
-    public AbstractOperation(OperationType type, String name, List<Variable> vars, List<Field> fields) {
-        this.type = type;
-        this.name = name;
-        this.variables = vars;
-        this.fields = fields;
+    public AbstractOperation() {
     }
 
     /*

@@ -1,5 +1,7 @@
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.VariableType;
+
 public abstract class AbstractVariableType implements VariableType {
     private String name;
     private boolean nonNull;
@@ -8,14 +10,7 @@ public abstract class AbstractVariableType implements VariableType {
     /*
         Constructors
     */
-    public AbstractVariableType(String name, boolean nonNull, VariableType child) {
-        if (child != null) {
-            this.name = "list(" + name + ")";
-        } else {
-            this.name = name;
-        }
-        this.nonNull = nonNull;
-        this.child = child;
+    public AbstractVariableType() {
     }
 
     /*

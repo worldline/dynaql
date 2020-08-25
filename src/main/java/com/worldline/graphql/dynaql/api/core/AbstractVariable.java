@@ -1,17 +1,19 @@
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Variable;
+import org.eclipse.microprofile.graphql.client.core.VariableType;
+
+import java.util.Optional;
+
 public abstract class AbstractVariable implements Variable {
     private String name;
     private VariableType type;
-    private Object defaultValue;
+    private Optional<Object> defaultValue;
 
     /*
         Constructors
     */
-    public AbstractVariable(String name, VariableType type, Object defaultValue) {
-        this.name = name;
-        this.type = type;
-        this.defaultValue = defaultValue;
+    public AbstractVariable() {
     }
 
     /*
@@ -38,12 +40,12 @@ public abstract class AbstractVariable implements Variable {
     }
 
     @Override
-    public Object getDefaultValue() {
+    public Optional<Object> getDefaultValue() {
         return defaultValue;
     }
 
     @Override
-    public void setDefaultValue(Object value) {
+    public void setDefaultValue(Optional<Object> value) {
         this.defaultValue = value;
     }
 }

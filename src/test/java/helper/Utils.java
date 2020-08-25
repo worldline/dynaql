@@ -1,8 +1,5 @@
 package helper;
 
-import graphql.parser.InvalidSyntaxException;
-import graphql.parser.Parser;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -17,16 +14,6 @@ public class Utils {
         String content = new String(Files.readAllBytes(filePath));
 
         return content;
-    }
-
-    public static void validateRequest(String request) {
-        Parser parser = new Parser();
-        try {
-            parser.parseDocument(request);
-        } catch (InvalidSyntaxException e) {
-            System.err.println(request);
-            throw (e);
-        }
     }
 
     private Utils() {

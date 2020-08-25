@@ -1,33 +1,9 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 import com.worldline.graphql.dynaql.api.core.AbstractInputObject;
-import com.worldline.graphql.dynaql.api.core.InputObject;
-import com.worldline.graphql.dynaql.api.core.InputObjectField;
-
-import java.util.List;
-
-import static java.util.Arrays.asList;
 
 public class DynaQLInputObject extends AbstractInputObject {
-
-    /*
-        Static factory methods
-    */
-    @SafeVarargs
-    public static InputObject inputObject(InputObjectField... inputObjectFields) {
-        return new DynaQLInputObject(asList(inputObjectFields));
-    }
-
-    /*
-        Constructors
-    */
-    public DynaQLInputObject(List<InputObjectField> inputObjectFields) {
-        super(inputObjectFields);
-    }
-
-    /*
-        Impl
-    */
+    // TODO: Use StringJoiner  or Stream + Collectors.joining (https://www.baeldung.com/java-strings-concatenation)
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();

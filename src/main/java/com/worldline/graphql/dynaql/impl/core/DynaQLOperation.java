@@ -1,83 +1,15 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 import com.worldline.graphql.dynaql.api.core.AbstractOperation;
-import com.worldline.graphql.dynaql.api.core.Field;
-import com.worldline.graphql.dynaql.api.core.Operation;
-import com.worldline.graphql.dynaql.api.core.OperationType;
-import com.worldline.graphql.dynaql.api.core.Variable;
 import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
+import org.eclipse.microprofile.graphql.client.core.Field;
+import org.eclipse.microprofile.graphql.client.core.OperationType;
+import org.eclipse.microprofile.graphql.client.core.Variable;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-
 public class DynaQLOperation extends AbstractOperation {
-
-    /*
-        Static factory methods
-    */
-    @SafeVarargs
-    public static List<Operation> operations(Operation... operations) {
-        return asList(operations);
-    }
-
-    // (fields)
-    @SafeVarargs
-    public static Operation operation(Field... fields) {
-        return new DynaQLOperation(OperationType.QUERY, "", emptyList(), asList(fields));
-    }
-
-    // (vars, fields)
-    @SafeVarargs
-    public static Operation operation(List<Variable> vars, DynaQLField... fields) {
-        return new DynaQLOperation(OperationType.QUERY, "", vars, asList(fields));
-    }
-
-    // (type, fields)
-    @SafeVarargs
-    public static Operation operation(OperationType type, Field... fields) {
-        return new DynaQLOperation(type, "", emptyList(), asList(fields));
-    }
-
-    // (type, vars, fields)
-    @SafeVarargs
-    public static Operation operation(OperationType type, List<Variable> vars, Field... fields) {
-        return new DynaQLOperation(type, "", vars, asList(fields));
-    }
-
-    // (name, fields)
-    @SafeVarargs
-    public static Operation operation(String name, Field... fields) {
-        return new DynaQLOperation(OperationType.QUERY, name, emptyList(), asList(fields));
-    }
-
-    // (type, name, fields)
-    @SafeVarargs
-    public static Operation operation(OperationType type, String name, Field... fields) {
-        return new DynaQLOperation(type, name, emptyList(), asList(fields));
-    }
-
-    // (name, vars, fields)
-    @SafeVarargs
-    public static Operation operation(String name, List<Variable> vars, Field... fields) {
-        return new DynaQLOperation(OperationType.QUERY, name, vars, asList(fields));
-    }
-
-    // (type, name, vars, fields)
-    @SafeVarargs
-    public static Operation operation(OperationType type, String name, List<Variable> vars, Field... fields) {
-        return new DynaQLOperation(type, name, vars, asList(fields));
-    }
-
-
-    /*
-        Constructors
-     */
-    public DynaQLOperation(OperationType type, String name, List<Variable> vars, List<Field> fields) {
-        super(type, name, vars, fields);
-    }
-
+    // TODO: Use simple StringJoiner
     @Override
     public String build() {
         StringBuilder builder = new StringBuilder();
@@ -112,6 +44,7 @@ public class DynaQLOperation extends AbstractOperation {
         return builder.toString();
     }
 
+    // TODO: Use StringJoiner  or Stream + Collectors.joining (https://www.baeldung.com/java-strings-concatenation)
     private void _buildVariables(StringBuilder builder) {
         builder.append("(");
 
@@ -127,6 +60,7 @@ public class DynaQLOperation extends AbstractOperation {
         builder.append(")");
     }
 
+    // TODO: Use StringJoiner  or Stream + Collectors.joining (https://www.baeldung.com/java-strings-concatenation)
     private void _buildFields(StringBuilder builder) {
         builder.append("{");
 

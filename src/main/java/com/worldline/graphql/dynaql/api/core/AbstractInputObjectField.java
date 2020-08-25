@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.api.core;
 
-import com.worldline.graphql.dynaql.impl.core.DynaQLVariable;
+import org.eclipse.microprofile.graphql.client.core.InputObjectField;
 
 public abstract class AbstractInputObjectField implements InputObjectField {
     private String name;
@@ -9,14 +9,7 @@ public abstract class AbstractInputObjectField implements InputObjectField {
     /*
         Constructors
     */
-    public AbstractInputObjectField(String name, Object value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public AbstractInputObjectField(String name, DynaQLVariable var) {
-        this.name = name;
-        this.value = var;
+    public AbstractInputObjectField() {
     }
 
     /*

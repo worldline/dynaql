@@ -39,7 +39,7 @@ public class HttpInvocationBuilder {
     private final Map<String, String> headers;
 
     private HttpInvocationBuilder() {
-        this.headers = new HashMap();
+        this.headers = new HashMap<>();
         this.configuration = new HttpConfiguration();
     }
 

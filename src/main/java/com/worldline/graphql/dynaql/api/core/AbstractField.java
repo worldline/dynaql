@@ -1,5 +1,8 @@
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Argument;
+import org.eclipse.microprofile.graphql.client.core.Field;
+
 import java.util.List;
 
 public abstract class AbstractField implements Field {
@@ -10,10 +13,7 @@ public abstract class AbstractField implements Field {
     /*
         Constructors
     */
-    public AbstractField(String name, List<Argument> args, List<Field> fields) {
-        this.name = name;
-        this.arguments = args;
-        this.fields = fields;
+    public AbstractField() {
     }
 
     /*

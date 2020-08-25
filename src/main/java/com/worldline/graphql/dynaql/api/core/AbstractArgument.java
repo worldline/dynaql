@@ -15,6 +15,8 @@
  */
 package com.worldline.graphql.dynaql.api.core;
 
+import org.eclipse.microprofile.graphql.client.core.Argument;
+
 public abstract class AbstractArgument implements Argument {
     private String name;
     private Object value;
@@ -22,14 +24,7 @@ public abstract class AbstractArgument implements Argument {
     /*
         Constructors
     */
-    public AbstractArgument(String name, Object value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public AbstractArgument(String name, Variable var) {
-        this.name = name;
-        this.value = var;
+    public AbstractArgument() {
     }
 
     /*
