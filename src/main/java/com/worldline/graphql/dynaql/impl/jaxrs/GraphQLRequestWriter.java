@@ -29,11 +29,6 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-/**
- * This is an implementation specific class and should not be in the
- * specification API.
- *
- */
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 public class GraphQLRequestWriter implements MessageBodyWriter<DynaQLRequest> {

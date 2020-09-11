@@ -1,6 +1,6 @@
 package com.worldline.graphql.dynaql.impl;
 
-import com.worldline.graphql.dynaql.api.Request;
+import org.eclipse.microprofile.graphql.client.Request;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -9,48 +9,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/**
- * @author jefrajames
- */
-public class DynaQLRequest implements Request {
 
-    private final String request;
+public class DynaQLRequest implements Request {
+    private final String document;
     private Map<String, Object> variables;
 
-    protected DynaQLRequest(String request) {
-        this.request = request;
+
+    public DynaQLRequest(String document) {
+        this.document = document;
+        this.variables = new HashMap<>();
     }
 
 
-    public String getRequest() {
-        return request;
+    public String toJson() {
+        JsonObjectBuilder queryBuilder = Json.createObjectBuilder().add("query", document);
+        if (!variables.isEmpty()) {
+            queryBuilder.add("variables", _formatJsonVariables());
+        }
+
+        return queryBuilder.build().toString();
     }
 
-    public Map<String, Object> getVariables() {
-        return variables;
-    }
-
-    @Override
-    public DynaQLRequest addVariable(String name, Object value) {
-        if (variables == null)
-            variables = new HashMap<>();
-
-        variables.put(name, value);
-        return this;
-    }
-
-    @Override
-    public DynaQLRequest resetVariables() {
-        variables = null;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "GraphQLRequest{" + "request=" + request + ", variables=" + variables + '}';
-    }
-
-    private JsonObject formatJsonVariables() {
+    private JsonObject _formatJsonVariables() {
         JsonObjectBuilder varBuilder = Json.createObjectBuilder();
 
         variables.forEach((k, v) -> {
@@ -65,23 +45,37 @@ public class DynaQLRequest implements Request {
         return varBuilder.build();
     }
 
-    @Override
-    public String toJson() {
-        JsonObjectBuilder queryBuilder = Json.createObjectBuilder().add("query", request);
-        if (variables != null) {
-            queryBuilder.add("variables", formatJsonVariables());
-        }
-
-        return queryBuilder.build().toString();
+    public String getDocument() {
+        return document;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
+    public Map<String, Object> getVariables() {
+        return variables;
     }
 
-    @Override
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables;
+    }
+
+    public Object getVariable(String key) {
+        return variables.get(key);
+    }
+
+    public Request setVariable(String key, Object value) {
+        variables.put(key, value);
+        return this;
+    }
+
+    public Request resetVariables() {
+        variables.clear();
+        return this;
+    }
+
+
+    public String toString() {
+        return "GraphQLRequest{" + "document=" + document + ", variables=" + variables + '}';
+    }
+
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -92,13 +86,15 @@ public class DynaQLRequest implements Request {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final DynaQLRequest other = (DynaQLRequest) obj;
-        if (!Objects.equals(this.request, other.request)) {
+        if (!Objects.equals(this.document, other.document)) {
             return false;
         }
         if (!Objects.equals(this.variables, other.variables)) {
             return false;
         }
+
         return true;
     }
 }

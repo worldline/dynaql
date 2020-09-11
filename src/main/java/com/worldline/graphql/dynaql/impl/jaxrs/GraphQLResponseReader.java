@@ -13,9 +13,10 @@
  */
 package com.worldline.graphql.dynaql.impl.jaxrs;
 
-import com.worldline.graphql.dynaql.api.Error;
-import com.worldline.graphql.dynaql.api.Response;
+import com.worldline.graphql.dynaql.impl.DynaQLError;
 import com.worldline.graphql.dynaql.impl.DynaQLResponse;
+import org.eclipse.microprofile.graphql.client.Error;
+import org.eclipse.microprofile.graphql.client.Response;
 import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
@@ -39,10 +40,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * This is an implementation specific class and should not be in the
- * specification API.
- */
 @Provider
 @Consumes("application/json")
 public class GraphQLResponseReader implements MessageBodyReader<Response> {
@@ -67,31 +64,31 @@ public class GraphQLResponseReader implements MessageBodyReader<Response> {
         log.warn("Received GraphQL response: "
                 + (jsonResponse.toString().length() <= MAX_LOG_LENGTH ? jsonResponse.toString() : jsonResponse.toString().substring(0, MAX_LOG_LENGTH) + " etc..."));
 
-        DynaQLResponse graphQLResponse = new DynaQLResponse();
 
+        JsonObject data = null;
+        if (jsonResponse.containsKey("data")) {
+            if (!jsonResponse.isNull("data")) {
+                data = jsonResponse.getJsonObject("data");
+            } else {
+                log.warn("No data in GraphQLResponse");
+            }
+        }
+
+        List<Error> errors = null;
         if (jsonResponse.containsKey("errors")) {
             log.warn("GraphQL errors detected in the response");
             JsonArray rawErrors = jsonResponse.getJsonArray("errors");
             Jsonb jsonb = JsonbBuilder.create();
-            List<Error> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
-            }.getClass().getGenericSuperclass());
-            graphQLResponse.setErrors(errors);
+            errors = jsonb.fromJson(
+                    rawErrors.toString(),
+                    new ArrayList<DynaQLError>() {}.getClass().getGenericSuperclass());
             try {
                 jsonb.close();
             } catch (Exception ignore) {
             } // Ugly!!!
         }
 
-        if (jsonResponse.containsKey("data")) {
-            if (!jsonResponse.isNull("data")) {
-                JsonObject data = jsonResponse.getJsonObject("data");
-                graphQLResponse.setData(data);
-            } else {
-                log.warn("No data in GraphQLResponse");
-            }
-        }
-
-        return graphQLResponse;
+        return new DynaQLResponse(data, errors);
     }
 
 }

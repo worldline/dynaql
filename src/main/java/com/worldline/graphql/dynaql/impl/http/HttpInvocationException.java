@@ -15,10 +15,7 @@
  */
 package com.worldline.graphql.dynaql.impl.http;
 
-/**
- *
- * @author jefrajames
- */
+
 public class HttpInvocationException extends RuntimeException {
 
     public HttpInvocationException() {

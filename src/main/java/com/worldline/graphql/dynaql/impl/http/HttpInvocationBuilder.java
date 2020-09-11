@@ -15,9 +15,9 @@
  */
 package com.worldline.graphql.dynaql.impl.http;
 
-import com.worldline.graphql.dynaql.api.Request;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
+import org.eclipse.microprofile.graphql.client.Request;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
@@ -25,10 +25,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author jefrajames
- */
+
 public class HttpInvocationBuilder {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(HttpInvocation.class);

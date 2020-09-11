@@ -20,10 +20,6 @@ import com.worldline.graphql.dynaql.impl.DynaQLResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author jefrajames
- */
 public class HttpResponse {
     
     private Map<String, String> headers = new HashMap<>();

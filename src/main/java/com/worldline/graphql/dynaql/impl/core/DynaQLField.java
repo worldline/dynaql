@@ -1,7 +1,5 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.AbstractField;
-
 public class DynaQLField extends AbstractField {
     // TODO: Use StringJoiner
     @Override

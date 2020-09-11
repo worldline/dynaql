@@ -1,12 +1,7 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.AbstractOperation;
-import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
-import org.eclipse.microprofile.graphql.client.core.Field;
-import org.eclipse.microprofile.graphql.client.core.OperationType;
-import org.eclipse.microprofile.graphql.client.core.Variable;
 
-import java.util.List;
+import org.eclipse.microprofile.graphql.client.core.exceptions.BuildException;
 
 public class DynaQLOperation extends AbstractOperation {
     // TODO: Use simple StringJoiner
@@ -20,9 +15,6 @@ public class DynaQLOperation extends AbstractOperation {
                 break;
             case MUTATION:
                 builder.append("mutation");
-                break;
-            case SUBSCRIPTION:
-                builder.append("subscription");
                 break;
             default:
                 throw new BuildException("Operation type must be one of QUERY, MUTATION or SUBSCRIPTION");

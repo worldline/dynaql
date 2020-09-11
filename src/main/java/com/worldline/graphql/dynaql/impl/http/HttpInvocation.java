@@ -15,8 +15,7 @@
  */
 package com.worldline.graphql.dynaql.impl.http;
 
-import com.worldline.graphql.dynaql.api.Error;
-import com.worldline.graphql.dynaql.api.Request;
+import com.worldline.graphql.dynaql.impl.DynaQLError;
 import com.worldline.graphql.dynaql.impl.DynaQLResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -28,6 +27,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.eclipse.microprofile.graphql.client.Error;
+import org.eclipse.microprofile.graphql.client.Request;
 import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
@@ -46,9 +47,7 @@ import java.util.Map;
 
 import static com.worldline.graphql.dynaql.impl.http.HttpConfiguration.REQUEST_CONFIG;
 
-/**
- * @author jefrajames
- */
+
 public class HttpInvocation {
 
     private final HttpConfiguration configuration;
@@ -110,7 +109,6 @@ public class HttpInvocation {
     }
 
     public HttpResponse invoke() {
-
         String jsonRequest = graphqlRequest.toJson();
         log.info("Sending GraphQL request: " + jsonRequest);
 
@@ -126,34 +124,31 @@ public class HttpInvocation {
         }
 
         JsonReader jsonReader = Json.createReader(new StringReader(responseBody));
-
         JsonObject jsonResponse = jsonReader.readObject();
 
-        DynaQLResponse graphQLResponse = new DynaQLResponse();
-        httpResponse.setGraphQLResponse(graphQLResponse);
+        JsonObject data = null;
+        if (jsonResponse.containsKey("data")) {
+            if (!jsonResponse.isNull("data")) {
+               data = jsonResponse.getJsonObject("data");
+            } else {
+                log.warn("GraphQL data element is null");
+            }
+        }
 
+        List<Error> errors = null;
         if (jsonResponse.containsKey("errors")) {
             log.warn("GraphQL errors element detected");
             JsonArray rawErrors = jsonResponse.getJsonArray("errors");
             Jsonb jsonb = JsonbBuilder.create();
-            List<Error> errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLResponse.DynaQLError>() {
+            errors = jsonb.fromJson(rawErrors.toString(), new ArrayList<DynaQLError>() {
             }.getClass().getGenericSuperclass());
-            graphQLResponse.setErrors(errors);
             try {
                 jsonb.close();
             } catch (Exception ignore) {
             } // Ugly!!!
         }
 
-        if (jsonResponse.containsKey("data")) {
-            if (!jsonResponse.isNull("data")) {
-                JsonObject data = jsonResponse.getJsonObject("data");
-                graphQLResponse.setData(data);
-            } else {
-                log.warn("GraphQL data element is null");
-            }
-        }
-
+        httpResponse.setGraphQLResponse(new DynaQLResponse(data, errors));
         return httpResponse;
     }
 

@@ -1,6 +1,5 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.AbstractDocument;
 import org.eclipse.microprofile.graphql.client.core.Operation;
 
 public class DynaQLDocument extends AbstractDocument {

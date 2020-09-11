@@ -3,7 +3,7 @@ package com.worldline.graphql.dynaql.impl.core.utils;
 import com.worldline.graphql.dynaql.impl.core.DynaQLEnum;
 import com.worldline.graphql.dynaql.impl.core.DynaQLInputObject;
 import com.worldline.graphql.dynaql.impl.core.DynaQLVariable;
-import com.worldline.graphql.dynaql.api.core.exceptions.BuildException;
+import org.eclipse.microprofile.graphql.client.core.exceptions.BuildException;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;

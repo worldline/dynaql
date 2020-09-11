@@ -1,7 +1,5 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.AbstractInputObject;
-
 public class DynaQLInputObject extends AbstractInputObject {
     // TODO: Use StringJoiner  or Stream + Collectors.joining (https://www.baeldung.com/java-strings-concatenation)
     @Override

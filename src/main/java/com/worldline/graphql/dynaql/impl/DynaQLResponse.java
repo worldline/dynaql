@@ -15,8 +15,8 @@
  */
 package com.worldline.graphql.dynaql.impl;
 
-import com.worldline.graphql.dynaql.api.Error;
-import com.worldline.graphql.dynaql.api.Response;
+import org.eclipse.microprofile.graphql.client.Error;
+import org.eclipse.microprofile.graphql.client.Response;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -24,75 +24,34 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-/**
- *
- * @author jefrajames
- */
 public class DynaQLResponse implements Response {
-
-    private JsonObject data;
-    private List<Error> errors;
+    private final JsonObject data;
+    private final List<Error> errors;
     private Jsonb jsonb;
 
-    public void setData(JsonObject data) {
+    public DynaQLResponse(JsonObject data, List<Error> errors) {
         this.data = data;
-    }
-
-    @Override
-    public JsonObject getData() {
-        return data;
-    }
-
-    @Override
-    public List<Error> getErrors() {
-        return errors;
-    }
-
-    public void setErrors(List<Error> errors) {
         this.errors = errors;
     }
 
-    @Override
-    public boolean hasData() {
-        return data != null;
-    }
-
-    @Override
-    public boolean hasError() {
-        return errors != null;
-    }
-
-    private Jsonb getJsonb() {
-        if (jsonb == null) {
-            jsonb = JsonbBuilder.create();
-        }
-        return jsonb;
-    }
-
-    
-    @Override
     public <T> T getObject(Class<T> dataType, String rootField) {
         JsonObject jsonObject = data.getJsonObject(rootField);
         return getJsonb().fromJson(jsonObject.toString(), dataType);
     }
 
-    
-    @Override
     public <T> List<T> getList(Class<T> dataType, String rootField) {
-        
         List<T> result = new ArrayList<T>();
-        
+
         Object item = data.get(rootField);
-        if ( item instanceof JsonObject ) {
+        if (item instanceof JsonObject) {
             // A single Object can be returned as a mono-element List
             result.add(getObject(dataType, rootField));
             return result;
         }
 
         JsonArray jsonArray = (JsonArray) item;
-        
+
         jsonArray.forEach(o -> {
             result.add(getJsonb().fromJson(o.toString(), dataType));
         });
@@ -100,54 +59,30 @@ public class DynaQLResponse implements Response {
         return result;
     }
 
-    @Override
+    public JsonObject getData() {
+        return data;
+    }
+
+    public List<Error> getErrors() {
+        return errors;
+    }
+
+    public boolean hasData() {
+        return data != null;
+    }
+
+    public boolean hasError() {
+        return errors != null;
+    }
+
     public String toString() {
         return "GraphQLResponse{" + "data=" + data + ", errors=" + errors + ", jsonb=" + jsonb + '}';
     }
 
-    public static class DynaQLError implements Error {
-
-        private String message;
-        private List<Map<String, Integer>> locations;
-        private Object[] path;
-        private Map<String, Object> extensions;
-
-        public String getMessage() {
-            return message;
+    private Jsonb getJsonb() {
+        if (jsonb == null) {
+            jsonb = JsonbBuilder.create();
         }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public List<Map<String, Integer>> getLocations() {
-            return locations;
-        }
-
-        public void setLocations(List<Map<String, Integer>> locations) {
-            this.locations = locations;
-        }
-
-        public Object[] getPath() {
-            return path;
-        }
-
-        public void setPath(Object[] path) {
-            this.path = path;
-        }
-
-        public Map<String, Object> getExtensions() {
-            return extensions;
-        }
-
-        public void setExtensions(Map<String, Object> extensions) {
-            this.extensions = extensions;
-        }
-
-        @Override
-        public String toString() {
-            return "GraphQLError{" + "message=" + message + ", locations=" + locations + ", path=" + path + ", extensions=" + extensions + '}';
-        }
-
+        return jsonb;
     }
 }

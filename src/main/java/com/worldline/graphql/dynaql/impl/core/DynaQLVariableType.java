@@ -1,7 +1,5 @@
 package com.worldline.graphql.dynaql.impl.core;
 
-import com.worldline.graphql.dynaql.api.core.AbstractVariableType;
-
 public class DynaQLVariableType extends AbstractVariableType {
     @Override
     // TODO: Use StringJoiner

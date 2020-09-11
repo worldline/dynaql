@@ -1,8 +1,6 @@
 package com.worldline.graphql.dynaql.impl.core;
 
 
-import com.worldline.graphql.dynaql.api.core.AbstractInputObjectField;
-
 import static com.worldline.graphql.dynaql.impl.core.utils.ValueFormatter.format;
 
 public class DynaQLInputObjectField extends AbstractInputObjectField {
