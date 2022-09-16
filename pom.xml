@@ -18,7 +18,7 @@
 
         <!-- Testing -->
         <junit.jupiter.version>5.6.0</junit.jupiter.version>
-        <graphql-java.version>14.1</graphql-java.version>
+        <graphql-java.version>17.4</graphql-java.version>
     </properties>
 
     <dependencies>
